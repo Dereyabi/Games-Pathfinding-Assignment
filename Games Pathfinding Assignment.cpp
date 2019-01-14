@@ -1,6 +1,7 @@
 // Games Pathfinding Assignment.cpp: A program using the TL-Engine
 
 #include <TL-Engine.h>	// TL-Engine include file and namespace
+#include "Constants.h"
 using namespace tle;
 
 void main()
@@ -13,7 +14,12 @@ void main()
 	myEngine->AddMediaFolder( "./Media" );
 
 	/**** Set up your scene here ****/
-	string mapName = "";	//whatever the user selects when i get that part set up
+	int data[MAX_DATA];
+
+
+
+	string mapName = "dMap";	//whatever the user selects when i get that part set up
+	LoadMap(mapName, data);
 
 	// The main game loop, repeat until engine is stopped
 	while (myEngine->IsRunning())

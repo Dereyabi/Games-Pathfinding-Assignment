@@ -9,8 +9,10 @@
 
 
 
-int LoadMap()
+int LoadMap(string mapFile, int data[])
 {
+	int x, y;
+
 	ifstream infile(mapFile);
 	if (!infile)
 	{
@@ -18,11 +20,16 @@ int LoadMap()
 	}
 	else
 	{
-		infile >> maxSize;
-		for (int i = 0; i < maxSize; i++)
+		infile >> x;
+		infile >> y;
+		for (int i = 0; i < x; i++)
 		{
+			for (int i = 0; i < y; i++)
+			{
+				infile >> data[i];
+			}
 			infile >> data[i];
 		}
 	}
-	return();
+	return(x, y);
 }
