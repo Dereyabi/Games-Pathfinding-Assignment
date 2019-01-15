@@ -9,7 +9,7 @@
 
 
 
-int LoadMap(string mapFile, int data[])
+int LoadMap(string mapFile, vector<vector<int>>)
 {
 	int x, y;
 
@@ -22,14 +22,7 @@ int LoadMap(string mapFile, int data[])
 	{
 		infile >> x;
 		infile >> y;
-		for (int i = 0; i < x; i++)
-		{
-			for (int i = 0; i < y; i++)
-			{
-				infile >> data[i];
-			}
-			infile >> data[i];
-		}
+		
 	}
 	return(x, y);
 }

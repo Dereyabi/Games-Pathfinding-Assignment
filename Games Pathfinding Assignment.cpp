@@ -14,12 +14,20 @@ void main()
 	myEngine->AddMediaFolder( "./Media" );
 
 	/**** Set up your scene here ****/
-	int data[MAX_DATA];
+	
+	vector<vector<int>>;
+
+
+
+
+
+
+
+
 
 
 
 	string mapName = "dMap";	//whatever the user selects when i get that part set up
-	LoadMap(mapName, data);
 
 	// The main game loop, repeat until engine is stopped
 	while (myEngine->IsRunning())
