@@ -4,6 +4,10 @@
 #include "Constants.h"
 using namespace tle;
 
+
+vector<vector<char>> map;
+
+
 void main()
 {
 	// Create a 3D engine (using TLX engine here) and open a window for it
@@ -15,19 +19,11 @@ void main()
 
 	/**** Set up your scene here ****/
 	
-	vector<vector<int>>;
+	
+	string mapName = "dMap.txt";	//whatever the user selects when i get that part set up
 
+	LoadMap(mapName, map);
 
-
-
-
-
-
-
-
-
-
-	string mapName = "dMap";	//whatever the user selects when i get that part set up
 
 	// The main game loop, repeat until engine is stopped
 	while (myEngine->IsRunning())

@@ -8,4 +8,4 @@ using namespace std;
 const int LoadError = -1;
 const int MAX_DATA = 1000;
 
-int LoadMap(string mapFile, vector<vector<int>>);
+void LoadMap(string mapFile, vector<vector<char>> map);

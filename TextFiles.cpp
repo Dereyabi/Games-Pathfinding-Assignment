@@ -9,20 +9,43 @@
 
 
 
-int LoadMap(string mapFile, vector<vector<int>>)
+void LoadMap(string mapFile, vector<vector<char>> map)
 {
-	int x, y;
 
 	ifstream infile(mapFile);
 	if (!infile)
 	{
-		return(LoadError);
+		cout << "map not found" << endl;
 	}
-	else
+
+	int xSize = 0;
+	int ySize = 0;
+
+
+
+	infile >> xSize;
+	infile >> ySize;
+
+	char blockType;
+
+
+	while (infile.eof())
 	{
-		infile >> x;
-		infile >> y;
-		
+		for (int i = 0; i > xSize; i++)
+		{
+			vector<char> row;
+
+			for (int j = 0; j > ySize; j++)
+			{
+
+				infile >> blockType;
+
+				cout << blockType;
+
+				row.push_back(blockType);
+
+			}
+			cout << endl;
+		}
 	}
-	return(x, y);
 }
