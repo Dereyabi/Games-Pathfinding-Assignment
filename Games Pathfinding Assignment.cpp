@@ -19,11 +19,18 @@ void main()
 
 	/**** Set up your scene here ****/
 	
+	//camera
+	ICamera* myCamera;
+	myCamera = myEngine->CreateCamera(kFPS);
 	
+	//creation of models
+	IMesh* blockMesh = myEngine->LoadMesh("Cube.x");
+	IModel* block;
+
+
 	string mapName = "dMap.txt";	//whatever the user selects when i get that part set up
 
-	LoadMap(mapName, map);
-
+	LoadMap("dMap.txt", map);
 
 	// The main game loop, repeat until engine is stopped
 	while (myEngine->IsRunning())
@@ -33,6 +40,13 @@ void main()
 
 		/**** Update your scene each frame here ****/
 
+		// need to create a for loop to create blocks, depending on the type change its skin 
+
+
+		if (myEngine->KeyHit(Key_Escape))
+		{
+			myEngine->Stop();
+		}
 	}
 
 	// Delete the 3D engine now we are finished with it

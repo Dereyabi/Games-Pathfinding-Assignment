@@ -29,23 +29,19 @@ void LoadMap(string mapFile, vector<vector<char>> map)
 	char blockType;
 
 
-	while (infile.eof())
+
+	for (int i = 0; i < xSize; i++)
 	{
-		for (int i = 0; i > xSize; i++)
+		vector<char> row;
+
+		for (int j = 0; j < ySize; j++)
 		{
-			vector<char> row;
+			infile >> blockType;
 
-			for (int j = 0; j > ySize; j++)
-			{
+			cout << blockType;
 
-				infile >> blockType;
-
-				cout << blockType;
-
-				row.push_back(blockType);
-
-			}
-			cout << endl;
+			row.push_back(blockType);
 		}
+		cout << endl;
 	}
 }
