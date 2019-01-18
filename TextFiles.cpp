@@ -4,12 +4,12 @@
 // Loads Map Files and starting and finishing locations 
 //
 
-#include "Constants.h"
+#include "Definitions.h"
 
 
 
 
-void LoadMap(string mapFile, vector<vector<char>> map)
+void LoadMap(string mapFile, TerrainMap &costMap)
 {
 
 	ifstream infile(mapFile);
@@ -23,8 +23,7 @@ void LoadMap(string mapFile, vector<vector<char>> map)
 
 
 
-	infile >> xSize;
-	infile >> ySize;
+	infile >> xSize >> ySize;
 
 	char blockType;
 
@@ -32,16 +31,35 @@ void LoadMap(string mapFile, vector<vector<char>> map)
 
 	for (int i = 0; i < xSize; i++)
 	{
-		vector<char> row;
+		vector<ETerrainCost> row;
+		ETerrainCost type;
 
 		for (int j = 0; j < ySize; j++)
 		{
 			infile >> blockType;
 
-			cout << blockType;
+			if (blockType == 0)
+			{
+				type = Wall;
+			}
+			else if (blockType == 1)
+			{
+				type = Clear;
+			}
+			else if (blockType == 2)
+			{
+				type = Wood;
+			}
+			else if (blockType == 3)
+			{
+				type = Water;
+			}
 
-			row.push_back(blockType);
+			cout << blockType;			//DEBUGGING
+
+			row.push_back(type);
 		}
-		cout << endl;
+		costMap.push_back(row);
+		cout << endl;					//DEBUGGING
 	}
 }

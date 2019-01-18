@@ -5,12 +5,13 @@
 //
 
 #pragma once
-
+#include <TL-Engine.h>
 #include <vector>
 #include <deque>
 #include <memory>
-
-using namespace std;
+#include <iostream>
+#include <fstream>
+using namespace tle;
 
 // Represents a node in the search tree.
 struct SNode
@@ -28,10 +29,15 @@ using NodeList = deque<unique_ptr<SNode>>;
 enum ETerrainCost
 {
   Clear = 1,
-  Water = 2,
-  Wood  = 3,
+  Wood = 2,
+  Water  = 3,
   Wall  = 0
 };
 
 // Maps of any size are implemented as 2D vectors
 using TerrainMap = vector<vector<ETerrainCost>>;
+
+void LoadMap(string mapFile, TerrainMap &map);
+void CreateModels(TerrainMap &costMap, vector<vector<IModel*>> modelMap);
+
+const int LoadError = -1;

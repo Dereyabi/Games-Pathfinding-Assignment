@@ -1,11 +1,12 @@
 // Games Pathfinding Assignment.cpp: A program using the TL-Engine
 
-#include <TL-Engine.h>	// TL-Engine include file and namespace
-#include "Constants.h"
+
+#include "Definitions.h"
 using namespace tle;
 
 
-vector<vector<char>> map;
+TerrainMap costMap;
+
 
 
 void main()
@@ -25,12 +26,15 @@ void main()
 	
 	//creation of models
 	IMesh* blockMesh = myEngine->LoadMesh("Cube.x");
-	IModel* block;
 
+
+	//vectors
+	vector<vector<IModel*>> map;
 
 	string mapName = "dMap.txt";	//whatever the user selects when i get that part set up
 
-	LoadMap("dMap.txt", map);
+	LoadMap("dMap.txt", costMap);
+	CreateModels(costMap, map);
 
 	// The main game loop, repeat until engine is stopped
 	while (myEngine->IsRunning())
