@@ -23,6 +23,8 @@ void main()
 	int mapXLength;
 	int mapYLength;
 	float cameraXPos = 50.0f, cameraYPos = 150.0f, cameraZPos = 45.0f, cameraRotation = 90.0f;
+	int startingXCoord, startingYCoord;
+	int endingXCoord, endingYCoord;
 
 	TerrainMap costMap;
 
@@ -39,9 +41,13 @@ void main()
 	vector<vector<IModel*>> map;
 
 	string mapName = "dMap.txt";	//whatever the user selects when i get that part set up
+	string coordinateFile = "dCoords.txt";
 
 	LoadMap("dMap.txt", costMap, mapXLength, mapYLength);
+	LoadCoordinates(coordinateFile, startingXCoord, startingYCoord, endingXCoord, endingYCoord);
 	CreateModels(costMap, map, blockMesh, mapXLength, mapYLength);
+	
+
 
 	// The main game loop, repeat until engine is stopped
 	while (myEngine->IsRunning())

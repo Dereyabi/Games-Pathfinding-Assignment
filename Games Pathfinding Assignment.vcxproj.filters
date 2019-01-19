@@ -16,7 +16,7 @@
     <ClCompile Include="CreateModels.cpp">
       <Filter>cpp Files</Filter>
     </ClCompile>
-    <ClCompile Include="DepthFirst.cpp">
+    <ClCompile Include="SearchBreadthFirst.cpp">
       <Filter>cpp Files</Filter>
     </ClCompile>
   </ItemGroup>
@@ -39,6 +39,9 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="Definitions.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SearchBreadthFirst.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

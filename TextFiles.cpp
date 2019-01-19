@@ -11,7 +11,6 @@
 
 void LoadMap(string mapFile, TerrainMap &costMap, int &xSize, int &ySize)
 {
-
 	ifstream infile(mapFile);
 	if (!infile)
 	{
@@ -59,4 +58,18 @@ void LoadMap(string mapFile, TerrainMap &costMap, int &xSize, int &ySize)
 	}
 
 	reverse(costMap.begin(), costMap.end());
+}
+
+void LoadCoordinates(string coordinateFile, int &startingX, int &startingY, int &endingX, int &endingY)
+{
+	ifstream infile(coordinateFile);
+	if (!infile)
+	{
+		cout << "map not found" << endl;
+	}
+
+	infile >> startingX;
+	infile >> startingY;
+	infile >> endingX;
+	infile >> endingY;
 }
