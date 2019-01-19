@@ -16,6 +16,9 @@
     <ClCompile Include="CreateModels.cpp">
       <Filter>cpp Files</Filter>
     </ClCompile>
+    <ClCompile Include="DepthFirst.cpp">
+      <Filter>cpp Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

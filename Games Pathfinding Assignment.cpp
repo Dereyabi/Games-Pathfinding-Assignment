@@ -5,7 +5,7 @@
 using namespace tle;
 
 
-TerrainMap costMap;
+
 
 
 
@@ -19,10 +19,17 @@ void main()
 	myEngine->AddMediaFolder( "./Media" );
 
 	/**** Set up your scene here ****/
-	
+	//variables
+	int mapXLength;
+	int mapYLength;
+	float cameraXPos = 50.0f, cameraYPos = 150.0f, cameraZPos = 45.0f, cameraRotation = 90.0f;
+
+	TerrainMap costMap;
+
 	//camera
 	ICamera* myCamera;
-	myCamera = myEngine->CreateCamera(kFPS);
+	myCamera = myEngine->CreateCamera(kManual, cameraXPos, cameraYPos, cameraZPos);
+	myCamera->RotateLocalX(cameraRotation);
 	
 	//creation of models
 	IMesh* blockMesh = myEngine->LoadMesh("Cube.x");
@@ -33,8 +40,8 @@ void main()
 
 	string mapName = "dMap.txt";	//whatever the user selects when i get that part set up
 
-	LoadMap("dMap.txt", costMap);
-	CreateModels(costMap, map);
+	LoadMap("dMap.txt", costMap, mapXLength, mapYLength);
+	CreateModels(costMap, map, blockMesh, mapXLength, mapYLength);
 
 	// The main game loop, repeat until engine is stopped
 	while (myEngine->IsRunning())

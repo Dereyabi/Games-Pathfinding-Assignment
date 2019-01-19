@@ -34,10 +34,16 @@ enum ETerrainCost
   Wall  = 0
 };
 
+enum EBlockSkins
+{
+	
+
+};
+
 // Maps of any size are implemented as 2D vectors
 using TerrainMap = vector<vector<ETerrainCost>>;
 
-void LoadMap(string mapFile, TerrainMap &map);
-void CreateModels(TerrainMap &costMap, vector<vector<IModel*>> modelMap);
+void LoadMap(string mapFile, TerrainMap &costMap, int &xSize, int &ySize);
+void CreateModels(TerrainMap costMap, vector<vector<IModel*>> modelMap, IMesh* blockMesh, int mapXSize, int mapYSize);
 
 const int LoadError = -1;

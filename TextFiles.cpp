@@ -9,7 +9,7 @@
 
 
 
-void LoadMap(string mapFile, TerrainMap &costMap)
+void LoadMap(string mapFile, TerrainMap &costMap, int &xSize, int &ySize)
 {
 
 	ifstream infile(mapFile);
@@ -17,11 +17,6 @@ void LoadMap(string mapFile, TerrainMap &costMap)
 	{
 		cout << "map not found" << endl;
 	}
-
-	int xSize = 0;
-	int ySize = 0;
-
-
 
 	infile >> xSize >> ySize;
 
@@ -38,19 +33,19 @@ void LoadMap(string mapFile, TerrainMap &costMap)
 		{
 			infile >> blockType;
 
-			if (blockType == 0)
+			if (blockType == '0')
 			{
 				type = Wall;
 			}
-			else if (blockType == 1)
+			else if (blockType == '1')
 			{
 				type = Clear;
 			}
-			else if (blockType == 2)
+			else if (blockType == '2')
 			{
 				type = Wood;
 			}
-			else if (blockType == 3)
+			else if (blockType == '3')
 			{
 				type = Water;
 			}
@@ -62,4 +57,6 @@ void LoadMap(string mapFile, TerrainMap &costMap)
 		costMap.push_back(row);
 		cout << endl;					//DEBUGGING
 	}
+
+	reverse(costMap.begin(), costMap.end());
 }
