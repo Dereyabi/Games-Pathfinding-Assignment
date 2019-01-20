@@ -2,11 +2,9 @@
 
 
 #include "Definitions.h"
+#include "Search.h"
+#include "SearchFactory.h"
 using namespace tle;
-
-
-
-
 
 
 void main()
@@ -23,8 +21,6 @@ void main()
 	int mapXLength;
 	int mapYLength;
 	float cameraXPos = 50.0f, cameraYPos = 150.0f, cameraZPos = 45.0f, cameraRotation = 90.0f;
-	int startingXCoord, startingYCoord;
-	int endingXCoord, endingYCoord;
 
 	TerrainMap costMap;
 
@@ -43,10 +39,16 @@ void main()
 	string mapName = "dMap.txt";	//whatever the user selects when i get that part set up
 	string coordinateFile = "dCoords.txt";
 
+	unique_ptr<SNode> start(new SNode);
+	unique_ptr<SNode> goal(new SNode);
+	NodeList path;
+
 	LoadMap("dMap.txt", costMap, mapXLength, mapYLength);
-	LoadCoordinates(coordinateFile, startingXCoord, startingYCoord, endingXCoord, endingYCoord);
+	LoadCoordinates(coordinateFile, start, goal);
 	CreateModels(costMap, map, blockMesh, mapXLength, mapYLength);
+	ISearch* BreadthFirstSearch = NewSearch(BreadthFirst);
 	
+	BreadthFirstSearch->FindPath(costMap, start, goal, path);
 
 
 	// The main game loop, repeat until engine is stopped

@@ -16,7 +16,7 @@
 // Ownership is not returned at the end, so the start and goal nodes are consumed.
 // The Path is returned through the reference parameter.
 
-bool CSearchNoStar::FindPath(TerrainMap& terrain, unique_ptr<SNode> start, unique_ptr<SNode> goal, NodeList& path)
+bool CSearchNoStar::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start, unique_ptr<SNode>& goal, NodeList& path)
 {
   // Rather than finding a real path, my made-up No Star algorithm constructs some nodes and calls them a path.
   unique_ptr <SNode> temp;
