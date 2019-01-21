@@ -6,7 +6,7 @@
 
 #include "SearchBreadthFirst.h"
 
-bool ListSearch(NodeList currentList, int x, int y);
+bool ListSearch(NodeList& currentList, int x, int y);
 
 bool CSearchBreadthFirst::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start, unique_ptr<SNode>& goal, NodeList& path)
 {
@@ -42,7 +42,7 @@ bool CSearchBreadthFirst::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start
 			temp.reset(new SNode);
 			temp->x = currentNode->x;
 			temp->y = currentNode->y + 1;
-			cout << currentNode->x << ", " << currentNode->y + 1 << endl;
+			cout << currentNode->x << ", " << currentNode->y << endl;
 			openList.push_back(move(temp));
 		}
 
@@ -52,7 +52,7 @@ bool CSearchBreadthFirst::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start
 			temp.reset(new SNode);
 			temp->x = currentNode->x + 1;
 			temp->y = currentNode->y;
-			cout << currentNode->x + 1 << ", " << currentNode->y << endl;
+			cout << currentNode->x << ", " << currentNode->y << endl;
 			openList.push_back(move(temp));
 		}
 
@@ -62,7 +62,7 @@ bool CSearchBreadthFirst::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start
 			temp.reset(new SNode);
 			temp->x = currentNode->x;
 			temp->y = currentNode->y - 1;
-			cout << currentNode->x << ", " << currentNode->y - 1 << endl;
+			cout << currentNode->x << ", " << currentNode->y << endl;
 			openList.push_back(move(temp));
 		}
 
@@ -72,17 +72,23 @@ bool CSearchBreadthFirst::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start
 			temp.reset(new SNode);
 			temp->x = currentNode->x - 1;
 			temp->y = currentNode->y;
-			cout << currentNode->x - 1 << ", " << currentNode->y << endl;
+			cout << currentNode->x << ", " << currentNode->y << endl;
 			openList.push_back(move(temp));
 		}
 
 		closedList.push_back(move(currentNode));
 	}
 
+
+	for (auto it = closedList.begin(); it != closedList.end(); ++it)
+	{
+		cout << (*it)->x << " " << (*it)->y << endl;
+	}
+
 	return true;
 }
 
-bool ListSearch( NodeList currentList, int x, int y)					//sent the open list, then the current coordinates + or - 1 on either x or y depending on direction
+bool ListSearch( NodeList& currentList, int x, int y)					//sent the open list, then the current coordinates + or - 1 on either x or y depending on direction
 {
 	bool found = false;													//
 
@@ -92,14 +98,16 @@ bool ListSearch( NodeList currentList, int x, int y)					//sent the open list, t
 		if ((*it)->x == x && (*it)->y == y)
 		{
 			cout << "Item found in the list" << endl;
-			return(true);
-			break;
+			return true;
+			//break;
 		}
 	}
 
 	if (found == false)
 	{
 		cout << "Item not in the list" << endl;
-		return(false);
+		return false;
 	}
+
+	return false;
 }

@@ -48,7 +48,6 @@ void LoadMap(string mapFile, TerrainMap &costMap, int &xSize, int &ySize)
 			{
 				type = Water;
 			}
-
 			cout << blockType;			//DEBUGGING
 
 			row.push_back(type);
@@ -56,7 +55,6 @@ void LoadMap(string mapFile, TerrainMap &costMap, int &xSize, int &ySize)
 		costMap.push_back(row);
 		cout << endl;					//DEBUGGING
 	}
-
 	reverse(costMap.begin(), costMap.end());
 }
 

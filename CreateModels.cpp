@@ -42,4 +42,5 @@ void CreateModels(TerrainMap costMap, vector<vector<IModel*>> modelMap, IMesh* b
 			}
 		}
 	}
+
 }
