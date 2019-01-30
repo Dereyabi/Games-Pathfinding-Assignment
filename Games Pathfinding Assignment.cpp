@@ -57,10 +57,8 @@ void main()
 	
 
 	ISearch* BreadthFirstSearch = NewSearch(BreadthFirst);
-
-	string alphabet = ("a", "b", "c", "d", "e", "f", "g", "h", "i", "j", "k", "l", "m", "n", "o", "p", "q", "r", "s", "t", "u", "v", "w", "x", "y", "z");
+	string suffix = "map.txt";
 	IFont* myFont = myEngine->LoadFont("Comic Sans MS", 36);
-
 
 	// The main game loop, repeat until engine is stopped
 	while (myEngine->IsRunning())
@@ -76,18 +74,17 @@ void main()
 		{
 			case mapSelect:
 			{
-				
-
-				if (!fileSearchFinished)
+				if (fileSearchFinished == false)
 				{
 					for (int i = 0; i < 25; i++)
 					{
-						mapName = alphabet[i] + "Map.txt";
+						mapName = (char('a' + i)) + suffix;
 						ifstream ifile(mapName);
 						if (ifile)
 						{
 							availableMaps.push_back(mapName);
 						}
+						ifile.close();
 					}
 
 					fileSearchFinished = true;
@@ -98,14 +95,7 @@ void main()
 
 				if (myEngine->KeyHit(Key_Up))
 				{
-					if (mapCounter == 0)
-					{
-						mapCounter = amountOfMaps;
-					}
-					else
-					{
-						mapCounter--;
-					}
+
 
 				}
 
@@ -124,10 +114,22 @@ void main()
 
 				if (myEngine->KeyHit(Key_Return))
 				{
-					LoadMap(mapName, costMap, mapXLength, mapYLength);
-					fileSearchFinished = false;
-					currentStateS = coordinateSelect;
+					if (costMap.empty)
+					{
+						LoadMap(availableMaps[mapCounter], costMap, mapXLength, mapYLength);
+						fileSearchFinished = false;
+						currentStateS = coordinateSelect;
+					}
+					else
+					{
+						//delete all existing models in the model array
+						LoadMap(availableMaps[mapCounter], costMap, mapXLength, mapYLength);
+						fileSearchFinished = false;
+						currentStateS = coordinateSelect;
+					}
+
 				}
+				break;
 			}
 			case coordinateSelect:
 			{
@@ -135,7 +137,7 @@ void main()
 				{
 					for (int i = 0; i < 25; i++)
 					{
-						coordinateFile = alphabet[i] + "Coord.txt";
+						coordinateFile = (char('a' + i)) + suffix;
 						ifstream ifile(coordinateFile);
 						if (ifile)
 						{
@@ -181,23 +183,44 @@ void main()
 					fileSearchFinished = false;
 					currentStateS = algorithmSelect;
 				}
+
+				if (myEngine->KeyHit(Key_Back))
+				{
+					currentStateS = mapSelect;
+				}
+				break;
 			}
 			case algorithmSelect:
 			{
 				currentStateS = mapCreation;
+				if (myEngine->KeyHit(Key_Back))
+				{
+					currentStateS = coordinateSelect;
+				}
+				break;
 			}
 			case mapCreation:
 			{
 				CreateModels(costMap, map, blockMesh, mapXLength, mapYLength);
-				system("pause");
+				break;
 			}
 			case algorithmRunning:
 			{
 				BreadthFirstSearch->FindPath(costMap, start, goal, path);
+
+				if (myEngine->KeyHit(Key_Back))
+				{
+					currentStateS = algorithmSelect;
+				}
+				break;
 			}
 			case pathFound:
 			{
-
+				if (myEngine->KeyHit(Key_Back))
+				{
+					currentStateS = algorithmSelect;
+				}
+				break;
 			}
 		}
 
