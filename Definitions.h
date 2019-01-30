@@ -11,6 +11,7 @@
 #include <memory>
 #include <iostream>
 #include <fstream>
+#include <sstream>
 using namespace tle;
 
 // Represents a node in the search tree.

@@ -10,7 +10,6 @@ bool ListSearch(NodeList& currentList, int x, int y);
 
 bool CSearchBreadthFirst::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start, unique_ptr<SNode>& goal, NodeList& path)
 {
-	// Rather than finding a real path, my made-up No Star algorithm constructs some nodes and calls them a path.
 	NodeList openList;
 	NodeList closedList;
 	NodeList currentList;
@@ -102,7 +101,6 @@ bool ListSearch( NodeList& currentList, int x, int y)					//sent the open list, 
 		{
 			cout << "Item found in the list" << endl;
 			return true;
-			//break;
 		}
 	}
 

@@ -81,3 +81,8 @@ void LoadCoordinates(string coordinateFile, unique_ptr<SNode>& start, unique_ptr
 	goal->y = temp;
 
 }
+
+void CycleMap()
+{
+	
+}
