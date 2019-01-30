@@ -34,50 +34,51 @@ bool CSearchBreadthFirst::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start
 		{
 			found = true;
 		}
-
-
-		//North
-		if (!ListSearch(openList, currentNode->x + 1, currentNode->y) && !ListSearch(closedList, currentNode->x + 1, currentNode->y) && terrain[currentNode->x + 1][currentNode->y] != Wall)					//wall check needs + or - on current node depending on direction 
+		else
 		{
-			temp.reset(new SNode);
-			temp->x = currentNode->x + 1;
-			temp->y = currentNode->y;
-			cout << currentNode->y << ", " << currentNode->x << endl;
-			openList.push_back(move(temp));
-		}
+			//right now, all of these are buggered as its trying to get to somewhere thats out of range of the vector
+			//North
+			if (!ListSearch(openList, currentNode->x + 1, currentNode->y) && !ListSearch(closedList, currentNode->x + 1, currentNode->y) && terrain[currentNode->x + 1][currentNode->y] != Wall)					//wall check needs + or - on current node depending on direction 
+			{
+				temp.reset(new SNode);
+				temp->x = currentNode->x + 1;
+				temp->y = currentNode->y;
+				cout << currentNode->y << ", " << currentNode->x << endl;
+				openList.push_back(move(temp));
+			}
 
-		//East
-		if (!ListSearch(openList, currentNode->x, currentNode->y + 1) && !ListSearch(closedList, currentNode->x, currentNode->y + 1) && terrain[currentNode->x][currentNode->y + 1] != Wall)					//wall check needs + or - on current node depending on direction 
-		{
-			temp.reset(new SNode);
-			temp->x = currentNode->x;
-			temp->y = currentNode->y + 1;
-			cout << currentNode->y << ", " << currentNode->x << endl;
-			openList.push_back(move(temp));
-		}
-		
-		//South
-		if (!ListSearch(openList, currentNode->x - 1, currentNode->y) && !ListSearch(closedList, currentNode->x - 1, currentNode->y) && terrain[currentNode->x - 1][currentNode->y] != Wall)					//wall check needs + or - on current node depending on direction 
-		{
-			temp.reset(new SNode);
-			temp->x = currentNode->x - 1;
-			temp->y = currentNode->y;
-			cout << currentNode->y << ", " << currentNode->x << endl;
-			openList.push_back(move(temp));
-		}
+			//East
+			if (!ListSearch(openList, currentNode->x, currentNode->y + 1) && !ListSearch(closedList, currentNode->x, currentNode->y + 1) && terrain[currentNode->x][currentNode->y + 1] != Wall)					//wall check needs + or - on current node depending on direction 
+			{
+				temp.reset(new SNode);
+				temp->x = currentNode->x;
+				temp->y = currentNode->y + 1;
+				cout << currentNode->y << ", " << currentNode->x << endl;
+				openList.push_back(move(temp));
+			}
 
-		//West
-		if (!ListSearch(openList, currentNode->x, currentNode->y - 1) && !ListSearch(closedList, currentNode->x, currentNode->y - 1) && terrain[currentNode->x][currentNode->y - 1] != Wall)					//wall check needs + or - on current node depending on direction 
-		{
-			temp.reset(new SNode);
-			temp->x = currentNode->x;
-			temp->y = currentNode->y - 1;
-			cout << currentNode->y << ", " << currentNode->x << endl;
-			openList.push_back(move(temp));
+			//South
+			if (!ListSearch(openList, currentNode->x - 1, currentNode->y) && !ListSearch(closedList, currentNode->x - 1, currentNode->y) && terrain[currentNode->x - 1][currentNode->y] != Wall)					//wall check needs + or - on current node depending on direction 
+			{
+				temp.reset(new SNode);
+				temp->x = currentNode->x - 1;
+				temp->y = currentNode->y;
+				cout << currentNode->y << ", " << currentNode->x << endl;
+				openList.push_back(move(temp));
+			}
+
+			//West
+			if (!ListSearch(openList, currentNode->x, currentNode->y - 1) && !ListSearch(closedList, currentNode->x, currentNode->y - 1) && terrain[currentNode->x][currentNode->y - 1] != Wall)					//wall check needs + or - on current node depending on direction 
+			{
+				temp.reset(new SNode);
+				temp->x = currentNode->x;
+				temp->y = currentNode->y - 1;
+				cout << currentNode->y << ", " << currentNode->x << endl;
+				openList.push_back(move(temp));
+			}
+
+			
 		}
-
-		
-
 		closedList.push_back(move(currentNode));
 	}
 

@@ -6,7 +6,7 @@
 
 #include "Definitions.h"
 
-void CreateModels(TerrainMap costMap, vector<vector<IModel*>> modelMap, IMesh* blockMesh, int mapXSize, int mapYSize)
+void CreateModels(TerrainMap& costMap, vector<vector<IModel*>>& modelMap, IMesh* blockMesh, int mapXSize, int mapYSize)
 {
 	vector<IModel*> row;
 	int modelSizeMultiplier = 10.0f;
@@ -42,4 +42,17 @@ void CreateModels(TerrainMap costMap, vector<vector<IModel*>> modelMap, IMesh* b
 			}
 		}
 	}
+}
+
+void clearMaps(TerrainMap costMap, vector<vector<IModel*>> modelMap, int mapXSize, int mapYSize, IMesh* blockMesh)
+{
+	for (int k = 0; k < mapYSize; k++)
+	{
+		for (int l = 0; l < mapXSize; l++)
+		{
+			blockMesh->RemoveModel(modelMap[k][l]);
+		}
+	}
+	modelMap.clear();
+	costMap.clear();
 }

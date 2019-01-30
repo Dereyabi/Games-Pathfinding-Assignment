@@ -9,7 +9,7 @@
 
 
 
-void LoadMap(string mapFile, TerrainMap &costMap, int &xSize, int &ySize)
+void LoadMap(string mapFile, TerrainMap& costMap, int& xSize, int& ySize)
 {
 	ifstream infile(mapFile);
 	if (!infile)
@@ -80,9 +80,5 @@ void LoadCoordinates(string coordinateFile, unique_ptr<SNode>& start, unique_ptr
 	infile >> temp;
 	goal->y = temp;
 
-}
-
-void CycleMap()
-{
-	
+	infile.close();
 }

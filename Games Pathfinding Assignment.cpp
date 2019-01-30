@@ -57,7 +57,8 @@ void main()
 	
 
 	ISearch* BreadthFirstSearch = NewSearch(BreadthFirst);
-	string suffix = "map.txt";
+	string mapSuffix = "Map.txt";
+	string coordinateSuffix = "Coords.txt";
 	IFont* myFont = myEngine->LoadFont("Comic Sans MS", 36);
 
 	// The main game loop, repeat until engine is stopped
@@ -74,11 +75,12 @@ void main()
 		{
 			case mapSelect:
 			{
+				myFont->Draw("stage 1", 200, 670);
 				if (fileSearchFinished == false)
 				{
 					for (int i = 0; i < 25; i++)
 					{
-						mapName = (char('a' + i)) + suffix;
+						mapName = (char('a' + i)) + mapSuffix;
 						ifstream ifile(mapName);
 						if (ifile)
 						{
@@ -95,13 +97,20 @@ void main()
 
 				if (myEngine->KeyHit(Key_Up))
 				{
-
+					if (mapCounter == 0)
+					{
+						mapCounter = availableMaps.size() - 1;
+					}
+					else
+					{
+						mapCounter--;
+					}
 
 				}
 
 				if (myEngine->KeyHit(Key_Down))
 				{
-					if (mapCounter == amountOfMaps)
+					if (mapCounter == availableMaps.size() - 1)
 					{
 						mapCounter = 0;
 					}
@@ -114,7 +123,7 @@ void main()
 
 				if (myEngine->KeyHit(Key_Return))
 				{
-					if (costMap.empty)
+					if (costMap.empty())
 					{
 						LoadMap(availableMaps[mapCounter], costMap, mapXLength, mapYLength);
 						fileSearchFinished = false;
@@ -123,21 +132,24 @@ void main()
 					else
 					{
 						//delete all existing models in the model array
+						clearMaps(costMap, map, mapXLength, mapYLength, blockMesh);
 						LoadMap(availableMaps[mapCounter], costMap, mapXLength, mapYLength);
 						fileSearchFinished = false;
 						currentStateS = coordinateSelect;
 					}
 
 				}
+
 				break;
 			}
 			case coordinateSelect:
 			{
+				myFont->Draw("stage 2", 200, 670);
 				if (!fileSearchFinished)
 				{
 					for (int i = 0; i < 25; i++)
 					{
-						coordinateFile = (char('a' + i)) + suffix;
+						coordinateFile = (char('a' + i)) + coordinateSuffix;
 						ifstream ifile(coordinateFile);
 						if (ifile)
 						{
@@ -151,11 +163,12 @@ void main()
 
 				myFont->Draw(availableCoordinates[coordinateMapCounter], 500, 670);
 
+				
 				if (myEngine->KeyHit(Key_Up))
 				{
-					if (mapCounter == 0)
+					if (coordinateMapCounter == 0)
 					{
-						coordinateMapCounter = amountOfCoordinateMaps;
+						coordinateMapCounter = availableCoordinates.size() - 1;
 					}
 					else
 					{
@@ -166,7 +179,7 @@ void main()
 
 				if (myEngine->KeyHit(Key_Down))
 				{
-					if (coordinateMapCounter == amountOfCoordinateMaps)
+					if (coordinateMapCounter == availableCoordinates.size() - 1)
 					{
 						coordinateMapCounter = 0;
 					}
@@ -179,7 +192,7 @@ void main()
 
 				if (myEngine->KeyHit(Key_Return))
 				{
-					LoadCoordinates(coordinateFile, start, goal);
+					LoadCoordinates(availableCoordinates[coordinateMapCounter], start, goal);
 					fileSearchFinished = false;
 					currentStateS = algorithmSelect;
 				}
@@ -192,7 +205,13 @@ void main()
 			}
 			case algorithmSelect:
 			{
-				currentStateS = mapCreation;
+				myFont->Draw("stage 3", 200, 670);
+				
+				if (myEngine->KeyHit(Key_Return))
+				{
+					currentStateS = mapCreation;
+				}
+
 				if (myEngine->KeyHit(Key_Back))
 				{
 					currentStateS = coordinateSelect;
@@ -201,11 +220,24 @@ void main()
 			}
 			case mapCreation:
 			{
+				myFont->Draw("stage 4", 200, 670);
 				CreateModels(costMap, map, blockMesh, mapXLength, mapYLength);
+
+				if (myEngine->KeyHit(Key_Return))
+				{
+					currentStateS = algorithmRunning;
+				}
+
+				if (myEngine->KeyHit(Key_Back))
+				{
+					currentStateS = mapSelect;
+				}
 				break;
 			}
 			case algorithmRunning:
 			{
+				myFont->Draw("stage 5", 200, 670);
+
 				BreadthFirstSearch->FindPath(costMap, start, goal, path);
 
 				if (myEngine->KeyHit(Key_Back))
@@ -228,7 +260,7 @@ void main()
 	
 
 
-
+		
 		
 
 		if (myEngine->KeyHit(Key_Escape))
