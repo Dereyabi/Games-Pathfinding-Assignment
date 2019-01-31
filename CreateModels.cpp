@@ -9,7 +9,7 @@
 void CreateModels(TerrainMap& costMap, vector<vector<IModel*>>& modelMap, IMesh* blockMesh, int mapXSize, int mapYSize)
 {
 	vector<IModel*> row;
-	int modelSizeMultiplier = 10.0f;
+	float modelSizeMultiplier = 10.0f;
 
 	for (int i = 0; i < mapYSize; i++)
 	{

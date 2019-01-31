@@ -14,6 +14,7 @@ bool CSearchBreadthFirst::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start
 	NodeList closedList;
 	NodeList currentList;
 	
+	
 	unique_ptr <SNode> temp;
 	unique_ptr <SNode> currentNode;
 
@@ -24,15 +25,15 @@ bool CSearchBreadthFirst::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start
 	bool found = false;
 	
 
-	while(!openList.empty() && found == false)
+	while(!openList.empty()||!found)
 	{
-
 		currentNode = move(openList.front());
 		openList.pop_front();
 
-		if (currentNode->x == goal->y && currentNode->y == goal->x)
+		if (currentNode->y == goal->x && currentNode->x == goal->y)
 		{
 			found = true;
+			//break;
 		}
 		else
 		{
@@ -43,6 +44,7 @@ bool CSearchBreadthFirst::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start
 				temp.reset(new SNode);
 				temp->x = currentNode->x + 1;
 				temp->y = currentNode->y;
+				temp->parent = currentNode.get();
 				cout << currentNode->y << ", " << currentNode->x << endl;
 				openList.push_back(move(temp));
 			}
@@ -53,6 +55,7 @@ bool CSearchBreadthFirst::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start
 				temp.reset(new SNode);
 				temp->x = currentNode->x;
 				temp->y = currentNode->y + 1;
+				temp->parent = currentNode.get();
 				cout << currentNode->y << ", " << currentNode->x << endl;
 				openList.push_back(move(temp));
 			}
@@ -63,6 +66,7 @@ bool CSearchBreadthFirst::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start
 				temp.reset(new SNode);
 				temp->x = currentNode->x - 1;
 				temp->y = currentNode->y;
+				temp->parent = currentNode.get();
 				cout << currentNode->y << ", " << currentNode->x << endl;
 				openList.push_back(move(temp));
 			}
@@ -73,14 +77,31 @@ bool CSearchBreadthFirst::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start
 				temp.reset(new SNode);
 				temp->x = currentNode->x;
 				temp->y = currentNode->y - 1;
+				temp->parent = currentNode.get();
 				cout << currentNode->y << ", " << currentNode->x << endl;
 				openList.push_back(move(temp));
 			}
 
-			
+			closedList.push_back(move(currentNode));
 		}
-		closedList.push_back(move(currentNode));
+
 	}
+
+	//if (found == true)
+	//{
+	//	vector<SNode*> parents;
+	//	parents.push_back(currentNode->parent);
+
+	//	bool pathConstructed = false;
+
+	//	while (pathConstructed == false)
+	//	{
+	//		if (parents.back() = NULL)
+	//		{
+
+	//		}
+	//	}
+	//}
 
 
 	for (auto it = closedList.begin(); it != closedList.end(); ++it)
@@ -113,3 +134,4 @@ bool ListSearch( NodeList& currentList, int x, int y)					//sent the open list, 
 
 	return false;
 }
+

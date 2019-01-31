@@ -26,6 +26,8 @@ void main()
 	int mapCounter = 0;
 	int amountOfCoordinateMaps;
 	int coordinateMapCounter = 0;
+	string mapChosen;
+	string coordinatesChosen;
 
 	TerrainMap costMap;
 
@@ -70,7 +72,9 @@ void main()
 		/**** Update your scene each frame here ****/
 
 		// need to create a for loop to create blocks, depending on the type change its skin 
-		
+		myFont->Draw(mapChosen, 1100, 50);
+		myFont->Draw(coordinatesChosen, 1100, 100);
+
 		switch (currentStateS)
 		{
 			case mapSelect:
@@ -93,7 +97,7 @@ void main()
 					amountOfMaps = availableMaps.size();
 				}
 
-				myFont->Draw(availableMaps[mapCounter], 500, 670);
+				mapChosen = availableMaps[mapCounter];
 
 				if (myEngine->KeyHit(Key_Up))
 				{
@@ -123,21 +127,13 @@ void main()
 
 				if (myEngine->KeyHit(Key_Return))
 				{
-					if (costMap.empty())
+					if (!costMap.empty())
 					{
-						LoadMap(availableMaps[mapCounter], costMap, mapXLength, mapYLength);
-						fileSearchFinished = false;
-						currentStateS = coordinateSelect;
+						costMap.clear();
 					}
-					else
-					{
-						//delete all existing models in the model array
-						clearMaps(costMap, map, mapXLength, mapYLength, blockMesh);
-						LoadMap(availableMaps[mapCounter], costMap, mapXLength, mapYLength);
-						fileSearchFinished = false;
-						currentStateS = coordinateSelect;
-					}
-
+					LoadMap(availableMaps[mapCounter], costMap, mapXLength, mapYLength);
+					fileSearchFinished = false;
+					currentStateS = coordinateSelect;
 				}
 
 				break;
@@ -161,7 +157,7 @@ void main()
 					amountOfCoordinateMaps = availableCoordinates.size();
 				}
 
-				myFont->Draw(availableCoordinates[coordinateMapCounter], 500, 670);
+				coordinatesChosen = availableCoordinates[coordinateMapCounter];
 
 				
 				if (myEngine->KeyHit(Key_Up))
@@ -199,6 +195,7 @@ void main()
 
 				if (myEngine->KeyHit(Key_Back))
 				{
+					coordinatesChosen = "";
 					currentStateS = mapSelect;
 				}
 				break;
@@ -221,29 +218,31 @@ void main()
 			case mapCreation:
 			{
 				myFont->Draw("stage 4", 200, 670);
+				if (!map.empty())
+				{
+					clearMaps(costMap, map, mapXLength, mapYLength, blockMesh);
+					CreateModels(costMap, map, blockMesh, mapXLength, mapYLength);
+				}
+
 				CreateModels(costMap, map, blockMesh, mapXLength, mapYLength);
+				
 
-				if (myEngine->KeyHit(Key_Return))
-				{
-					currentStateS = algorithmRunning;
-				}
+				currentStateS = algorithmRunning;
 
-				if (myEngine->KeyHit(Key_Back))
-				{
-					currentStateS = mapSelect;
-				}
 				break;
 			}
 			case algorithmRunning:
 			{
 				myFont->Draw("stage 5", 200, 670);
 
-				BreadthFirstSearch->FindPath(costMap, start, goal, path);
 
-				if (myEngine->KeyHit(Key_Back))
+				if (BreadthFirstSearch->FindPath(costMap, start, goal, path))
 				{
-					currentStateS = algorithmSelect;
+					cout << "working/n";
+					currentStateS = pathFound;
 				}
+
+				
 				break;
 			}
 			case pathFound:
@@ -256,7 +255,7 @@ void main()
 			}
 		}
 
-		//coordinateSelect, algorithmSelect, algorithmRunning, pathFound
+		
 	
 
 
