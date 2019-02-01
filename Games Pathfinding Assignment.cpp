@@ -28,6 +28,7 @@ void main()
 	int coordinateMapCounter = 0;
 	string mapChosen;
 	string coordinatesChosen;
+	bool pathFoundCheck = false;
 
 	TerrainMap costMap;
 
@@ -74,12 +75,21 @@ void main()
 		// need to create a for loop to create blocks, depending on the type change its skin 
 		myFont->Draw(mapChosen, 1100, 50);
 		myFont->Draw(coordinatesChosen, 1100, 100);
+		if (pathFoundCheck)
+		{
+			myFont->Draw("Path Found", 1100, 150);
+		}
+		else
+		{
+			myFont->Draw("Path Not Found", 1000, 150);
+		}
+		
 
 		switch (currentStateS)
 		{
 			case mapSelect:
 			{
-				myFont->Draw("stage 1", 200, 670);
+				myFont->Draw("Select a Map File", 200, 670);
 				if (fileSearchFinished == false)
 				{
 					for (int i = 0; i < 25; i++)
@@ -140,7 +150,7 @@ void main()
 			}
 			case coordinateSelect:
 			{
-				myFont->Draw("stage 2", 200, 670);
+				myFont->Draw("Select a Coordinate File", 200, 670);
 				if (!fileSearchFinished)
 				{
 					for (int i = 0; i < 25; i++)
@@ -188,6 +198,10 @@ void main()
 
 				if (myEngine->KeyHit(Key_Return))
 				{
+					start.reset(new SNode);
+					
+					goal.reset(new SNode);
+
 					LoadCoordinates(availableCoordinates[coordinateMapCounter], start, goal);
 					fileSearchFinished = false;
 					currentStateS = algorithmSelect;
@@ -202,7 +216,7 @@ void main()
 			}
 			case algorithmSelect:
 			{
-				myFont->Draw("stage 3", 200, 670);
+				myFont->Draw("Select an Algorithm", 200, 670);
 				
 				if (myEngine->KeyHit(Key_Return))
 				{
@@ -220,7 +234,7 @@ void main()
 				myFont->Draw("stage 4", 200, 670);
 				if (!map.empty())
 				{
-					clearMaps(costMap, map, mapXLength, mapYLength, blockMesh);
+					clearMaps(costMap, map, mapXLength, mapYLength, blockMesh, start, goal);
 					CreateModels(costMap, map, blockMesh, mapXLength, mapYLength);
 				}
 
@@ -239,6 +253,12 @@ void main()
 				if (BreadthFirstSearch->FindPath(costMap, start, goal, path))
 				{
 					cout << "working/n";
+					pathFoundCheck = true;
+					currentStateS = pathFound;
+				}
+				else
+				{
+					pathFoundCheck = false;
 					currentStateS = pathFound;
 				}
 

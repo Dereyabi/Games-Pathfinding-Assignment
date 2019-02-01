@@ -44,7 +44,7 @@ void CreateModels(TerrainMap& costMap, vector<vector<IModel*>>& modelMap, IMesh*
 	}
 }
 
-void clearMaps(TerrainMap costMap, vector<vector<IModel*>> modelMap, int mapXSize, int mapYSize, IMesh* blockMesh)
+void clearMaps(TerrainMap& costMap, vector<vector<IModel*>>& modelMap, int mapXSize, int mapYSize, IMesh* blockMesh, unique_ptr<SNode>& start, unique_ptr<SNode>& goal)
 {
 	for (int k = 0; k < mapYSize; k++)
 	{

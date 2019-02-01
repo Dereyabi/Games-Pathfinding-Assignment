@@ -47,6 +47,6 @@ using TerrainMap = vector<vector<ETerrainCost>>;
 void LoadMap(string mapFile, TerrainMap& costMap, int& xSize, int& ySize);
 void LoadCoordinates(string coordinateFile, unique_ptr<SNode>& start, unique_ptr<SNode>& goal);
 void CreateModels(TerrainMap& costMap, vector<vector<IModel*>>& modelMap, IMesh* blockMesh, int mapXSize, int mapYSize);
-void clearMaps(TerrainMap costMap, vector<vector<IModel*>> modelMap, int mapXSize, int mapYSize, IMesh* blockMesh);
+void clearMaps(TerrainMap& costMap, vector<vector<IModel*>>& modelMap, int mapXSize, int mapYSize, IMesh* blockMesh, unique_ptr<SNode>& start, unique_ptr<SNode>& goal);
 
 const int LoadError = -1;

@@ -37,7 +37,7 @@ bool CSearchBreadthFirst::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start
 		}
 		else
 		{
-			//right now, all of these are buggered as its trying to get to somewhere thats out of range of the vector
+			
 			//North
 			if (!ListSearch(openList, currentNode->x + 1, currentNode->y) && !ListSearch(closedList, currentNode->x + 1, currentNode->y) && terrain[currentNode->x + 1][currentNode->y] != Wall)					//wall check needs + or - on current node depending on direction 
 			{
@@ -50,7 +50,7 @@ bool CSearchBreadthFirst::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start
 			}
 
 			//East
-			if (!ListSearch(openList, currentNode->x, currentNode->y + 1) && !ListSearch(closedList, currentNode->x, currentNode->y + 1) && terrain[currentNode->x][currentNode->y + 1] != Wall)					//wall check needs + or - on current node depending on direction 
+			else if (!ListSearch(openList, currentNode->x, currentNode->y + 1) && !ListSearch(closedList, currentNode->x, currentNode->y + 1) && terrain[currentNode->x][currentNode->y + 1] != Wall)					//wall check needs + or - on current node depending on direction 
 			{
 				temp.reset(new SNode);
 				temp->x = currentNode->x;
@@ -61,7 +61,7 @@ bool CSearchBreadthFirst::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start
 			}
 
 			//South
-			if (!ListSearch(openList, currentNode->x - 1, currentNode->y) && !ListSearch(closedList, currentNode->x - 1, currentNode->y) && terrain[currentNode->x - 1][currentNode->y] != Wall)					//wall check needs + or - on current node depending on direction 
+			else if (!ListSearch(openList, currentNode->x - 1, currentNode->y) && !ListSearch(closedList, currentNode->x - 1, currentNode->y) && terrain[currentNode->x - 1][currentNode->y] != Wall)					//wall check needs + or - on current node depending on direction 
 			{
 				temp.reset(new SNode);
 				temp->x = currentNode->x - 1;
@@ -72,7 +72,7 @@ bool CSearchBreadthFirst::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start
 			}
 
 			//West
-			if (!ListSearch(openList, currentNode->x, currentNode->y - 1) && !ListSearch(closedList, currentNode->x, currentNode->y - 1) && terrain[currentNode->x][currentNode->y - 1] != Wall)					//wall check needs + or - on current node depending on direction 
+			else if (!ListSearch(openList, currentNode->x, currentNode->y - 1) && !ListSearch(closedList, currentNode->x, currentNode->y - 1) && terrain[currentNode->x][currentNode->y - 1] != Wall)					//wall check needs + or - on current node depending on direction 
 			{
 				temp.reset(new SNode);
 				temp->x = currentNode->x;
@@ -80,6 +80,10 @@ bool CSearchBreadthFirst::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start
 				temp->parent = currentNode.get();
 				cout << currentNode->y << ", " << currentNode->x << endl;
 				openList.push_back(move(temp));
+			}
+			else
+			{
+				return false;
 			}
 
 			closedList.push_back(move(currentNode));
@@ -134,4 +138,5 @@ bool ListSearch( NodeList& currentList, int x, int y)					//sent the open list, 
 
 	return false;
 }
+
 
