@@ -1,3 +1,4 @@
+//Jay Stewart
 // SearchFactory.h
 // ===============
 //
@@ -13,7 +14,7 @@ enum ESearchType
 {
   BreadthFirst,
   // Dijkstra,
-  // AStar,
+  AStar
   
   /* TODO - Add type elements for each implemented search */
  

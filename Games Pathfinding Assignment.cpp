@@ -1,3 +1,4 @@
+//Jay Stewart
 // Games Pathfinding Assignment.cpp: A program using the TL-Engine
 
 
@@ -59,6 +60,7 @@ void main()
 	
 
 	ISearch* BreadthFirstSearch = NewSearch(BreadthFirst);
+	ISearch* AStarSearch = NewSearch(AStar);
 	string mapSuffix = "Map.txt";
 	string coordinateSuffix = "Coords.txt";
 	IFont* myFont = myEngine->LoadFont("Comic Sans MS", 36);
@@ -221,6 +223,7 @@ void main()
 
 
 				if (BreadthFirstSearch->FindPath(costMap, start, goal, path, mapXLength, mapYLength, myEngine, map))
+				//if (AStarSearch->FindPath(costMap, start, goal, path, mapXLength, mapYLength, myEngine, map))
 				{
 					pathFoundCheck = true;
 					currentStateS = pathFound;

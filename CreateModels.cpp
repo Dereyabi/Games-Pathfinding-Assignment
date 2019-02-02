@@ -1,3 +1,4 @@
+//Jay Stewart
 // CreateModels.cpp
 // ===============
 //
@@ -42,7 +43,6 @@ void CreateModels(TerrainMap& costMap, vector<vector<IModel*>>& modelMap, IMesh*
 			}
 		}
 	}
-	modelMap[0][0]->SetSkin("checked1.jpg");
 }
 
 void clearMaps(TerrainMap& costMap, vector<vector<IModel*>>& modelMap, int mapXSize, int mapYSize, IMesh* blockMesh, unique_ptr<SNode>& start, unique_ptr<SNode>& goal)

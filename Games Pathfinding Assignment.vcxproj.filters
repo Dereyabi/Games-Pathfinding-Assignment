@@ -16,6 +16,9 @@
     <ClCompile Include="SearchBreadthFirst.cpp">
       <Filter>cpp Files</Filter>
     </ClCompile>
+    <ClCompile Include="SearchAStar.cpp">
+      <Filter>cpp Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <Filter Include="Header Files">

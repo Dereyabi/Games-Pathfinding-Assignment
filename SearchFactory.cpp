@@ -1,3 +1,4 @@
+//Jay Stewart
 // SearchFactory.cpp
 // =================
 //
@@ -21,6 +22,10 @@ ISearch* NewSearch(ESearchType search)
 	  {
 		return new CSearchBreadthFirst();
 	  }
+	case AStar:
+	{
+		return new CSearchAStar();
+	}
     /* TODO - add a case for each implemented search type here */
 
   }

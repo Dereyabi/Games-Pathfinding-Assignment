@@ -1,3 +1,4 @@
+//Jay Stewart
 // SearchBreadthFirst.cpp
 // ===============
 //
@@ -11,12 +12,14 @@ bool CSearchBreadthFirst::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start
 	NodeList openList;
 	NodeList closedList;
 	NodeList currentList;
-	
+	NodeList parents;
+
 	vector<SCurrentNode> currentNodePosition = { { 0, 1}, {1, 0 }, { 0, -1 }, { -1, 0 } };		//vector of am x and y coordinate, used in checking north, east, south and west
 
-	
+	SNode* nodePath;
 	unique_ptr <SNode> temp;
 	unique_ptr <SNode> currentNode;
+
 
 	if (terrain[start->y][start->x] == Wall || terrain[goal->y][goal->x] == Wall)				//initial check to see if either the start or end is gon the goal
 	{
@@ -38,6 +41,7 @@ bool CSearchBreadthFirst::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start
 		}
 		else
 		{
+			nodePath = currentNode.get();
 			currentNode = move(openList.front());						//moves first on openlist to currentNode 
 			openList.pop_front();										//pops it from the openlist
 																		
@@ -60,6 +64,7 @@ bool CSearchBreadthFirst::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start
 						temp->x = currentNode->x + (*it).x;
 						temp->parent = currentNode.get();
 						openList.push_back(move(temp));
+
 					}
 				}
 				cout << currentNode->x << ", " << currentNode->y << endl;		//outputs current node to console to debug the path that its making
@@ -69,21 +74,27 @@ bool CSearchBreadthFirst::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start
 		}
 	}
 
-	//if (found == true)
-	//{
-	//	vector<SNode*> parents;
-	//	parents.push_back(currentNode->parent);
+	
+	
 
-	//	bool pathConstructed = false;
+	if (found == true)
+	{
+		while (nodePath != NULL)
+		{
+			auto it = closedList.begin(); 
+			{
+				while ((*it))
+				{
 
-	//	while (pathConstructed == false)
-	//	{
-	//		if (parents.back() = NULL)
-	//		{
+				}
+				it++;
+			}
+			
+			nodePath = nodePath->parent;
 
-	//		}
-	//	}
-	//}
+		}
+
+	}
 
 
 	for (auto it = closedList.begin(); it != closedList.end(); ++it)		//outputs all nodes that were checked and put on the closed list to debug final path 

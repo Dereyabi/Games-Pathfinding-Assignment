@@ -1,3 +1,4 @@
+//Jay Stewart
 // Definitions.h
 // =============
 //
@@ -12,6 +13,7 @@
 #include <iostream>
 #include <fstream>
 #include <sstream>
+#include <algorithm>
 using namespace tle;
 
 // Represents a node in the search tree.

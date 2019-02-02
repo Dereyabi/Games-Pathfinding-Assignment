@@ -1,3 +1,4 @@
+//Jay Stewart
 #pragma once
 
 #include "Definitions.h"  // Type definitions
@@ -12,4 +13,19 @@ class CSearchBreadthFirst : public ISearch
 	bool FindPath(TerrainMap& terrain, unique_ptr<SNode>& start, unique_ptr<SNode>& goal, NodeList& path, int mapXLength, int mapYLength, I3DEngine* myEngine, vector<vector<IModel*>>& modelMap);
 	bool ListSearch(NodeList& currentList, SNode* currentNode, SCurrentNode& currentPosition);
 	ETerrainCost BoundrySearch(TerrainMap& terrain, SNode* currentNode, SCurrentNode& currentPosition, int mapXLength, int mapYLength);
+};
+
+class CSearchAStar : public ISearch
+{
+	bool FindPath(TerrainMap& terrain, unique_ptr<SNode>& start, unique_ptr<SNode>& goal, NodeList& path, int mapXLength, int mapYLength, I3DEngine* myEngine, vector<vector<IModel*>>& modelMap);
+
+	bool ListSearch(NodeList& currentList, SNode* currentNode, SCurrentNode& currentPosition);
+
+	ETerrainCost BoundrySearch(TerrainMap& terrain, SNode* currentNode, SCurrentNode& currentPosition, int mapXLength, int mapYLength);
+
+	ETerrainCost ScoreCheck(TerrainMap& terrain, SNode* currentNode, SCurrentNode& currentPosition);
+
+	int CSearchAStar::ManhattanDistance(SNode* currentNode, unique_ptr<SNode>& goal);
+
+	bool CompareCoords();
 };

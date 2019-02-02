@@ -125,6 +125,7 @@ copy "C:\ProgramData\TL-Engine\3rd Party\TL-Xtreme\shader\*.*" "$(OutDir)" &gt; 
     </PostBuildEvent>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="SearchAStar.cpp" />
     <ClCompile Include="CreateModels.cpp" />
     <ClCompile Include="SearchBreadthFirst.cpp" />
     <ClCompile Include="Games Pathfinding Assignment.cpp" />
