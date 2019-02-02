@@ -15,7 +15,7 @@ void CreateModels(TerrainMap& costMap, vector<vector<IModel*>>& modelMap, IMesh*
 	{
 		for (int j = 0; j < mapXSize; j++)
 		{
-			row.push_back(move(blockMesh->CreateModel(j*modelSizeMultiplier, 0.0f, i*modelSizeMultiplier)));
+			row.push_back(move(blockMesh->CreateModel(j*modelSizeMultiplier, i*modelSizeMultiplier, 0.0f)));
 		}
 		modelMap.push_back(move(row));
 	}
@@ -38,10 +38,11 @@ void CreateModels(TerrainMap& costMap, vector<vector<IModel*>>& modelMap, IMesh*
 			}
 			else if (costMap[k][l] == Water)
 			{
-				modelMap[k][l]->SetSkin("tiles1.jpg");
+				modelMap[k][l]->SetSkin("water.jpg");
 			}
 		}
 	}
+	modelMap[0][0]->SetSkin("checked1.jpg");
 }
 
 void clearMaps(TerrainMap& costMap, vector<vector<IModel*>>& modelMap, int mapXSize, int mapYSize, IMesh* blockMesh, unique_ptr<SNode>& start, unique_ptr<SNode>& goal)

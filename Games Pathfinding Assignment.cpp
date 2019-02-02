@@ -20,7 +20,7 @@ void main()
 	//variables
 	int mapXLength;
 	int mapYLength;
-	float cameraXPos = 50.0f, cameraYPos = 150.0f, cameraZPos = 45.0f, cameraRotation = 90.0f;
+	float cameraXPos = 50.0f, cameraYPos = 50.0f, cameraZPos = -200.0f;
 	bool fileSearchFinished = false;
 	int amountOfMaps;
 	int mapCounter = 0;
@@ -35,11 +35,10 @@ void main()
 	//camera
 	ICamera* myCamera;
 	myCamera = myEngine->CreateCamera(kManual, cameraXPos, cameraYPos, cameraZPos);
-	myCamera->RotateLocalX(cameraRotation);
 	
 	//states
-	enum searchStates { mapSelect, coordinateSelect, algorithmSelect, mapCreation, algorithmRunning, pathFound };
-	searchStates currentStateS = mapSelect;
+	enum searchStates { mapAndCoordSelect, algorithmSelect, mapCreation, algorithmRunning, pathFound };
+	searchStates currentStateS = mapAndCoordSelect;
 
 	//creation of models
 	IMesh* blockMesh = myEngine->LoadMesh("Cube.x");
@@ -87,27 +86,40 @@ void main()
 
 		switch (currentStateS)
 		{
-			case mapSelect:
+			case mapAndCoordSelect:
 			{
-				myFont->Draw("Select a Map File", 200, 670);
-				if (fileSearchFinished == false)
+				myFont->Draw("Select a Map and Coordinate File", 200, 670);
+				if (!fileSearchFinished)
 				{
 					for (int i = 0; i < 25; i++)
 					{
+						//search available Maps
 						mapName = (char('a' + i)) + mapSuffix;
 						ifstream ifile(mapName);
 						if (ifile)
 						{
 							availableMaps.push_back(mapName);
 						}
-						ifile.close();
+						ifile.clear();
+
+						//search available Coordinates
+						coordinateFile = (char('a' + i)) + coordinateSuffix;
+						ifstream jfile(coordinateFile);
+						if (jfile)
+						{
+							availableCoordinates.push_back(coordinateFile);
+						}
+						jfile.close();
 					}
 
 					fileSearchFinished = true;
 					amountOfMaps = availableMaps.size();
+					amountOfCoordinateMaps = availableCoordinates.size();
 				}
 
 				mapChosen = availableMaps[mapCounter];
+
+				coordinatesChosen = availableCoordinates[coordinateMapCounter];
 
 				if (myEngine->KeyHit(Key_Up))
 				{
@@ -118,6 +130,15 @@ void main()
 					else
 					{
 						mapCounter--;
+					}
+
+					if (coordinateMapCounter == 0)
+					{
+						coordinateMapCounter = availableCoordinates.size() - 1;
+					}
+					else
+					{
+						coordinateMapCounter--;
 					}
 
 				}
@@ -133,58 +154,6 @@ void main()
 						mapCounter++;
 					}
 
-				}
-
-				if (myEngine->KeyHit(Key_Return))
-				{
-					if (!costMap.empty())
-					{
-						costMap.clear();
-					}
-					LoadMap(availableMaps[mapCounter], costMap, mapXLength, mapYLength);
-					fileSearchFinished = false;
-					currentStateS = coordinateSelect;
-				}
-
-				break;
-			}
-			case coordinateSelect:
-			{
-				myFont->Draw("Select a Coordinate File", 200, 670);
-				if (!fileSearchFinished)
-				{
-					for (int i = 0; i < 25; i++)
-					{
-						coordinateFile = (char('a' + i)) + coordinateSuffix;
-						ifstream ifile(coordinateFile);
-						if (ifile)
-						{
-							availableCoordinates.push_back(coordinateFile);
-						}
-					}
-
-					fileSearchFinished = true;
-					amountOfCoordinateMaps = availableCoordinates.size();
-				}
-
-				coordinatesChosen = availableCoordinates[coordinateMapCounter];
-
-				
-				if (myEngine->KeyHit(Key_Up))
-				{
-					if (coordinateMapCounter == 0)
-					{
-						coordinateMapCounter = availableCoordinates.size() - 1;
-					}
-					else
-					{
-						coordinateMapCounter--;
-					}
-
-				}
-
-				if (myEngine->KeyHit(Key_Down))
-				{
 					if (coordinateMapCounter == availableCoordinates.size() - 1)
 					{
 						coordinateMapCounter = 0;
@@ -199,39 +168,24 @@ void main()
 				if (myEngine->KeyHit(Key_Return))
 				{
 					start.reset(new SNode);
-					
 					goal.reset(new SNode);
 
+					if (!costMap.empty())
+					{
+						costMap.clear();
+					}
+
+					LoadMap(availableMaps[mapCounter], costMap, mapXLength, mapYLength);
 					LoadCoordinates(availableCoordinates[coordinateMapCounter], start, goal);
 					fileSearchFinished = false;
-					currentStateS = algorithmSelect;
-				}
-
-				if (myEngine->KeyHit(Key_Back))
-				{
-					coordinatesChosen = "";
-					currentStateS = mapSelect;
-				}
-				break;
-			}
-			case algorithmSelect:
-			{
-				myFont->Draw("Select an Algorithm", 200, 670);
-				
-				if (myEngine->KeyHit(Key_Return))
-				{
 					currentStateS = mapCreation;
 				}
 
-				if (myEngine->KeyHit(Key_Back))
-				{
-					currentStateS = coordinateSelect;
-				}
 				break;
 			}
 			case mapCreation:
 			{
-				myFont->Draw("stage 4", 200, 670);
+				myFont->Draw("map being created", 200, 670);
 				if (!map.empty())
 				{
 					clearMaps(costMap, map, mapXLength, mapYLength, blockMesh, start, goal);
@@ -239,10 +193,26 @@ void main()
 				}
 
 				CreateModels(costMap, map, blockMesh, mapXLength, mapYLength);
-				
+				map[start->y][start->x]->SetSkin("checked1.jpg");
+				map[goal->y][goal->x]->SetSkin("checked1.jpg");
 
-				currentStateS = algorithmRunning;
+				currentStateS = algorithmSelect;
 
+				break;
+			}
+			case algorithmSelect:
+			{
+				myFont->Draw("Select an Algorithm", 200, 670);
+
+				if (myEngine->KeyHit(Key_Return))
+				{
+					currentStateS = algorithmRunning;
+				}
+
+				if (myEngine->KeyHit(Key_Back))
+				{
+					currentStateS = mapAndCoordSelect;
+				}
 				break;
 			}
 			case algorithmRunning:
@@ -250,9 +220,8 @@ void main()
 				myFont->Draw("stage 5", 200, 670);
 
 
-				if (BreadthFirstSearch->FindPath(costMap, start, goal, path))
+				if (BreadthFirstSearch->FindPath(costMap, start, goal, path, mapXLength, mapYLength, myEngine, map))
 				{
-					cout << "working/n";
 					pathFoundCheck = true;
 					currentStateS = pathFound;
 				}
@@ -274,13 +243,6 @@ void main()
 				break;
 			}
 		}
-
-		
-	
-
-
-		
-		
 
 		if (myEngine->KeyHit(Key_Escape))
 		{

@@ -23,6 +23,12 @@ struct SNode
   SNode* parent = 0; // note use of raw pointer here
 };
 
+struct SCurrentNode
+{
+	int x;			// x coordinate
+	int y;			// y coordinate
+};
+
 // Lists of nodes (e.g Open, Closed and Paths) are implemented as double-ended queues
 using NodeList = deque<unique_ptr<SNode>>;
 

@@ -23,12 +23,12 @@ void LoadMap(string mapFile, TerrainMap& costMap, int& xSize, int& ySize)
 
 
 
-	for (int i = 0; i < xSize; i++)
+	for (int i = 0; i < ySize; i++)
 	{
 		vector<ETerrainCost> row;
 		ETerrainCost type;
 
-		for (int j = 0; j < ySize; j++)
+		for (int j = 0; j < xSize; j++)
 		{
 			infile >> blockType;
 

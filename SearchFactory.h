@@ -16,8 +16,6 @@ enum ESearchType
   // AStar,
   
   /* TODO - Add type elements for each implemented search */
-
-  NoStar // Not a real algorithm - remove when ready! 
  
 };
 

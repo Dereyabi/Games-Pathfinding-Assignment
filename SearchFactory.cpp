@@ -4,8 +4,7 @@
 // Factory function implementation to create CSearchXXX objects 
 //
 
-#include "SearchNoStar.h" // NoStar search class
-#include "SearchBreadthFirst.h"
+#include "AlgorithmSearch.h"
 
 /* TODO - include each implemented search class here */
 
@@ -18,10 +17,6 @@ ISearch* NewSearch(ESearchType search)
 {
   switch (search)
   {
-    case NoStar:
-      {
-         return new CSearchNoStar();
-      }
 	case BreadthFirst:
 	  {
 		return new CSearchBreadthFirst();
