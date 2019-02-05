@@ -27,7 +27,8 @@ bool CSearchAStar::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start, uniqu
 		return false;
 	}
 
-	start->score = ManhattanDistance(start.get(), goal);
+	start->manhattanDist = ManhattanDistance(start.get(), goal);
+	start->score = start->manhattanDist;
 	openList.push_back(move(start));			//push initial coordinates onto openlist 
 	
 
@@ -60,10 +61,19 @@ bool CSearchAStar::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start, uniqu
 					if (!ListSearch(openList, currentNode.get(), (*it)) && (!ListSearch(closedList, currentNode.get(), (*it)))
 						&& BoundrySearch(terrain, currentNode.get(), (*it), mapXLength, mapYLength) != Wall)					//wall check needs + or - on current node depending on direction 
 					{
+						//reset node to a new one
 						temp.reset(new SNode);
+						//set the position of the new node to the old one + or - in whatever axis is being checked 
 						temp->y = currentNode->y + (*it).y;
 						temp->x = currentNode->x + (*it).x;
+						//set the new node score to the old one then add on score from terrain and adjust for manhattan distence 
+						temp->score = currentNode->score;
+						temp->score += ScoreCheck(terrain, currentNode.get());
+						//temp->score += abs(((ManhattanDistance(currentNode.get(), goal)) % 7) - 7);	//BUG currently it just adds the manhattan distance on instead of adjusting the already existing manhattan distance 
+						//cout << "manhattan dist: " << abs(7 - (7 %(ManhattanDistance(currentNode.get(), goal)))) << endl;
+						//set the parent of the new node to the old node 
 						temp->parent = currentNode.get();
+						//push the new node onto the openList
 						openList.push_back(move(temp));
 					}
 				}
@@ -73,6 +83,34 @@ bool CSearchAStar::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start, uniqu
 			}
 		}
 	}
+
+	if (found == true)
+	{
+		SNode* parentNode = closedList.back().get();
+		while (parentNode != NULL)
+		{
+			auto it = closedList.begin();
+			while (it != closedList.end())
+			{
+				if ((*it)->x == parentNode->x && (*it)->y == parentNode->y)
+				{
+					temp = move((*it));
+					path.push_front(move(temp));
+					closedList.erase(it);
+					break;
+				}
+				it++;
+			}
+			parentNode = parentNode->parent;
+		}
+	}
+
+	if (found == true)		//returns whether or not the path was found
+	{
+		return true;
+	}
+
+	return false;
 
 }
 
@@ -99,14 +137,23 @@ ETerrainCost CSearchAStar::BoundrySearch(TerrainMap& terrain, SNode* currentNode
 	return terrain[currentNode->y + currentPosition.y][currentNode->x + currentPosition.x];
 }
 
-ETerrainCost CSearchAStar::ScoreCheck(TerrainMap& terrain, SNode* currentNode, SCurrentNode& currentPosition)
+int CSearchAStar::ScoreCheck(TerrainMap& terrain, SNode* currentNode)
 {
-	if (currentNode->score)
+	vector<ETerrainCost> row;
+	row = terrain[currentNode->y];
+	if (row[currentNode->x] == Clear)
 	{
-
+		return 1;
+	}
+	if (row[currentNode->x] == Wood)
+	{
+		return 2;
+	}
+	if (row[currentNode->x] == Water)
+	{
+		return 3;
 	}
 
-	return Wall;
 }
 
 int CSearchAStar::ManhattanDistance(SNode* currentNode, unique_ptr<SNode>& goal)

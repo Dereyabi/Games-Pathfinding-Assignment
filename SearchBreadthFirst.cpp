@@ -16,7 +16,7 @@ bool CSearchBreadthFirst::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start
 
 	vector<SCurrentNode> currentNodePosition = { { 0, 1}, {1, 0 }, { 0, -1 }, { -1, 0 } };		//vector of am x and y coordinate, used in checking north, east, south and west
 
-	SNode* nodePath;
+	
 	unique_ptr <SNode> temp;
 	unique_ptr <SNode> currentNode;
 
@@ -41,7 +41,6 @@ bool CSearchBreadthFirst::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start
 		}
 		else
 		{
-			nodePath = currentNode.get();
 			currentNode = move(openList.front());						//moves first on openlist to currentNode 
 			openList.pop_front();										//pops it from the openlist
 																		
@@ -74,32 +73,25 @@ bool CSearchBreadthFirst::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start
 		}
 	}
 
-	
-	
-
 	if (found == true)
 	{
-		while (nodePath != NULL)
+		SNode* parentNode = closedList.back().get();
+		while (parentNode != NULL)
 		{
-			auto it = closedList.begin(); 
+			auto it = closedList.begin();
+			while (it != closedList.end())
 			{
-				while ((*it))
+				if ((*it)->x == parentNode->x && (*it)->y == parentNode->y)
 				{
-
+					temp = move((*it));
+					path.push_front(move(temp));
+					closedList.erase(it);
+					break;
 				}
 				it++;
 			}
-			
-			nodePath = nodePath->parent;
-
+			parentNode = parentNode->parent;
 		}
-
-	}
-
-
-	for (auto it = closedList.begin(); it != closedList.end(); ++it)		//outputs all nodes that were checked and put on the closed list to debug final path 
-	{
-		cout << (*it)->x << " " << (*it)->y << endl;
 	}
 
 	if (found == true)		//returns whether or not the path was found

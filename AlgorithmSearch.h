@@ -23,9 +23,9 @@ class CSearchAStar : public ISearch
 
 	ETerrainCost BoundrySearch(TerrainMap& terrain, SNode* currentNode, SCurrentNode& currentPosition, int mapXLength, int mapYLength);
 
-	ETerrainCost ScoreCheck(TerrainMap& terrain, SNode* currentNode, SCurrentNode& currentPosition);
+	int ScoreCheck(TerrainMap& terrain, SNode* currentNode);
 
 	int CSearchAStar::ManhattanDistance(SNode* currentNode, unique_ptr<SNode>& goal);
 
-	bool CompareCoords();
+	//bool CompareCoords();
 };

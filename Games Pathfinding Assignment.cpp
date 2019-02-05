@@ -222,8 +222,8 @@ void main()
 				myFont->Draw("stage 5", 200, 670);
 
 
-				if (BreadthFirstSearch->FindPath(costMap, start, goal, path, mapXLength, mapYLength, myEngine, map))
-				//if (AStarSearch->FindPath(costMap, start, goal, path, mapXLength, mapYLength, myEngine, map))
+				//if (BreadthFirstSearch->FindPath(costMap, start, goal, path, mapXLength, mapYLength, myEngine, map))
+				if (AStarSearch->FindPath(costMap, start, goal, path, mapXLength, mapYLength, myEngine, map))
 				{
 					pathFoundCheck = true;
 					currentStateS = pathFound;
@@ -239,6 +239,13 @@ void main()
 			}
 			case pathFound:
 			{
+				ofstream outfile("Bestpath.txt");
+				for (auto it = path.begin(); it != path.end(); ++it)
+				{
+					map[(*it)->y][(*it)->x]->SetSkin("path.jpg");
+					outfile << (*it)->x << ", " << (*it)->y << endl;
+				}
+
 				if (myEngine->KeyHit(Key_Back))
 				{
 					currentStateS = algorithmSelect;
