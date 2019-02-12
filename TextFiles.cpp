@@ -85,23 +85,6 @@ void LoadCoordinates(string coordinateFile, unique_ptr<SNode>& start, unique_ptr
 }
 
 
-//int OutputPathToFile(NodeList path, )
-//{
-//	ofstream outfile(outputFile);
-//
-//	outfile <<  << endl;
-//	for (int i = 0; i < 7; i++)
-//	{
-//		outfile << data[i] << endl;
-//	}
-//
-//	
-//
-//
-//
-//	outfile.close();
-//
-//	return(Success);
-//}
+
 
 

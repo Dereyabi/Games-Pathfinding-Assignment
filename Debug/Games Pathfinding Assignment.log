@@ -1,5 +1,4 @@
-﻿  SearchAStar.cpp
-d:\jstewart8\desktop\games-pathfinding-assignment\searchastar.cpp(22): warning C4101: 'cost': unreferenced local variable
-d:\jstewart8\desktop\games-pathfinding-assignment\searchastar.cpp(157): warning C4715: 'CSearchAStar::ScoreCheck': not all control paths return a value
+﻿cl : Command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
+  TextFiles.cpp
   Games Pathfinding Assignment.vcxproj -> D:\JStewart8\Desktop\Games-Pathfinding-Assignment\\Games Pathfinding AssignmentDebug.exe
-  Games Pathfinding Assignment.vcxproj -> D:\JStewart8\Desktop\Games-Pathfinding-Assignment\\Games Pathfinding Assignment.pdb (Full PDB)
+  Copying DLLs & shaders...

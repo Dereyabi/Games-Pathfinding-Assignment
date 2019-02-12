@@ -165,10 +165,11 @@ int CSearchAStar::ManhattanDistance(SNode* currentNode, unique_ptr<SNode>& goal)
 	return distance;
 }
 
-//bool CSearchAStar::CompareCoords()
-//{
-//
-//}
+bool CSearchAStar::CompareCoords()
+{
+
+	return false;
+}
 
 
 

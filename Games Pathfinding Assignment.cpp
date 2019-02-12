@@ -30,6 +30,7 @@ void main()
 	string mapChosen;
 	string coordinatesChosen;
 	bool pathFoundCheck = false;
+	bool algorithmPicker = false;
 
 	TerrainMap costMap;
 
@@ -59,8 +60,7 @@ void main()
 	
 	
 
-	ISearch* BreadthFirstSearch = NewSearch(BreadthFirst);
-	ISearch* AStarSearch = NewSearch(AStar);
+	ISearch* Search;
 	string mapSuffix = "Map.txt";
 	string coordinateSuffix = "Coords.txt";
 	IFont* myFont = myEngine->LoadFont("Comic Sans MS", 36);
@@ -82,7 +82,15 @@ void main()
 		}
 		else
 		{
-			myFont->Draw("Path Not Found", 1000, 150);
+			myFont->Draw("No Path", 1100, 150);
+		}
+		if (!algorithmPicker)
+		{
+			myFont->Draw("BreadthFirst", 1100, 200);
+		}
+		if (algorithmPicker)
+		{
+			myFont->Draw("AStar", 1100, 200);
 		}
 		
 
@@ -206,8 +214,29 @@ void main()
 			{
 				myFont->Draw("Select an Algorithm", 200, 670);
 
+				if (myEngine->KeyHit(Key_Up))
+				{
+					algorithmPicker = !algorithmPicker;
+				}
+
+				if (myEngine->KeyHit(Key_Down))
+				{
+					algorithmPicker = !algorithmPicker;
+				}
+
 				if (myEngine->KeyHit(Key_Return))
 				{
+					if (algorithmPicker == false)
+					{
+						cout << "BreadthFirst" << endl;
+						Search = NewSearch(BreadthFirst);
+					}
+					else if (algorithmPicker == true)
+					{
+						cout << "AStar" << endl;
+						Search = NewSearch(AStar);
+					}
+
 					currentStateS = algorithmRunning;
 				}
 
@@ -223,7 +252,7 @@ void main()
 
 
 				//if (BreadthFirstSearch->FindPath(costMap, start, goal, path, mapXLength, mapYLength, myEngine, map))
-				if (AStarSearch->FindPath(costMap, start, goal, path, mapXLength, mapYLength, myEngine, map))
+				if (Search->FindPath(costMap, start, goal, path, mapXLength, mapYLength, myEngine, map))
 				{
 					pathFoundCheck = true;
 					currentStateS = pathFound;
