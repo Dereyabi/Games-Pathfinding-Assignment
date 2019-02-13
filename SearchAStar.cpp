@@ -80,6 +80,7 @@ bool CSearchAStar::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start, uniqu
 				cout << currentNode->x << ", " << currentNode->y << "Score: " << currentNode->score << endl;		//outputs current node to console to debug the path that its making
 				modelMap[currentNode->y][currentNode->x]->SetSkin("checked1.jpg");
 				closedList.push_back(move(currentNode));						//finaly puts the current node thats checked all nodes round it on the closed list 
+				sort(openList.begin(), openList.end(), CompareCoords);
 			}
 		}
 	}
@@ -165,11 +166,11 @@ int CSearchAStar::ManhattanDistance(SNode* currentNode, unique_ptr<SNode>& goal)
 	return distance;
 }
 
-bool CSearchAStar::CompareCoords()
+bool CSearchAStar::CompareCoords(unique_ptr<SNode>& lhs, unique_ptr<SNode>& rhs)
 {
-
-	return false;
+	return lhs->score < rhs->score;
 }
+
 
 
 
