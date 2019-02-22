@@ -9,6 +9,7 @@
 
 bool CSearchAStar::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start, unique_ptr<SNode>& goal, NodeList& path, int mapXLength, int mapYLength, I3DEngine* myEngine, vector<vector<IModel*>>& modelMap)
 {
+	path.clear();
 	NodeList openList;
 	NodeList closedList;
 	NodeList currentList;
@@ -27,14 +28,13 @@ bool CSearchAStar::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start, uniqu
 		return false;
 	}
 
-	start->manhattanDist = ManhattanDistance(start.get(), goal);
-	start->score = start->manhattanDist;
+	start->score = ManhattanDistance(start.get(), goal);
 	openList.push_back(move(start));			//push initial coordinates onto openlist 
 	
 
 	bool found = false;
-
-
+	bool newNodeCreated = false;
+	int sortCount = 0;
 
 	while (!openList.empty() || !found)			//loops until the goal is found or until the openlist is empty
 	{
@@ -67,20 +67,39 @@ bool CSearchAStar::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start, uniqu
 						temp->y = currentNode->y + (*it).y;
 						temp->x = currentNode->x + (*it).x;
 						//set the new node score to the old one then add on score from terrain and adjust for manhattan distence 
-						temp->score = currentNode->score;
-						temp->score += ScoreCheck(terrain, currentNode.get());
-						//temp->score += abs(((ManhattanDistance(currentNode.get(), goal)) % 7) - 7);	//BUG currently it just adds the manhattan distance on instead of adjusting the already existing manhattan distance 
-						//cout << "manhattan dist: " << abs(7 - (7 %(ManhattanDistance(currentNode.get(), goal)))) << endl;
+						//newcost sends over the map, the temp node and the current node cost 
+						//gets the cost of the tile its going on then adds it to the current node cost
+						temp->terrainCost = ScoreCheck(terrain, temp.get()) + currentNode->terrainCost;
+						int heuristic = ManhattanDistance(temp.get(), goal);
+						temp->score = temp->terrainCost + heuristic;
+					
 						//set the parent of the new node to the old node 
 						temp->parent = currentNode.get();
 						//push the new node onto the openList
 						openList.push_back(move(temp));
+						newNodeCreated = true;
 					}
+
+					
 				}
+
 				cout << currentNode->x << ", " << currentNode->y << "Score: " << currentNode->score << endl;		//outputs current node to console to debug the path that its making
 				modelMap[currentNode->y][currentNode->x]->SetSkin("checked1.jpg");
+				cout << "sort count is: " << sortCount << endl;
 				closedList.push_back(move(currentNode));						//finaly puts the current node thats checked all nodes round it on the closed list 
-				sort(openList.begin(), openList.end(), CompareCoords);
+
+				//sort the open list by score 
+				if (newNodeCreated)
+				{
+					sort(openList.begin(), openList.end(),
+						[](unique_ptr<SNode>& lhs, unique_ptr<SNode>& rhs)
+					{
+						return lhs->score < rhs->score;
+					});
+
+					sortCount++;
+					newNodeCreated = false;
+				}
 			}
 		}
 	}
@@ -166,10 +185,10 @@ int CSearchAStar::ManhattanDistance(SNode* currentNode, unique_ptr<SNode>& goal)
 	return distance;
 }
 
-bool CSearchAStar::CompareCoords(unique_ptr<SNode>& lhs, unique_ptr<SNode>& rhs)
-{
-	return lhs->score < rhs->score;
-}
+//bool CSearchAStar::CompareCoords(unique_ptr<SNode>& lhs, unique_ptr<SNode>& rhs)
+//{
+//	return lhs->score < rhs->score;
+//}
 
 
 

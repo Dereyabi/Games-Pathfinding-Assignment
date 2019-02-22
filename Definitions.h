@@ -21,8 +21,8 @@ struct SNode
 {
   int x;				// x coordinate
   int y;				// y coordinate
-  int manhattanDist;	// heuristic for A* 
-  int score;			// used in more complex algorithms
+  int terrainCost = 0;
+  int score = 0;			// used in more complex algorithms
   SNode* parent = 0;	// note use of raw pointer here
 };
 

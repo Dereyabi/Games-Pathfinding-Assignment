@@ -243,15 +243,13 @@ void main()
 				if (myEngine->KeyHit(Key_Back))
 				{
 					currentStateS = mapAndCoordSelect;
+					clearMaps(costMap, map, mapXLength, mapYLength, blockMesh, start, goal);
 				}
 				break;
 			}
 			case algorithmRunning:
 			{
-				myFont->Draw("stage 5", 200, 670);
 
-
-				//if (BreadthFirstSearch->FindPath(costMap, start, goal, path, mapXLength, mapYLength, myEngine, map))
 				if (Search->FindPath(costMap, start, goal, path, mapXLength, mapYLength, myEngine, map))
 				{
 					pathFoundCheck = true;
@@ -263,7 +261,6 @@ void main()
 					currentStateS = pathFound;
 				}
 
-				
 				break;
 			}
 			case pathFound:
@@ -277,7 +274,10 @@ void main()
 
 				if (myEngine->KeyHit(Key_Back))
 				{
-					currentStateS = algorithmSelect;
+					currentStateS = mapAndCoordSelect;
+
+					clearMaps(costMap, map, mapXLength, mapYLength, blockMesh, start, goal);
+					
 				}
 				break;
 			}

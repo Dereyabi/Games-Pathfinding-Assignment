@@ -9,12 +9,14 @@
 
 bool CSearchBreadthFirst::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start, unique_ptr<SNode>& goal, NodeList& path, int mapXLength, int mapYLength, I3DEngine* myEngine, vector<vector<IModel*>>& modelMap)
 {
+	path.clear();
+
 	NodeList openList;
 	NodeList closedList;
 	NodeList currentList;
 	NodeList parents;
 
-	vector<SCurrentNode> currentNodePosition = { { 0, 1}, {1, 0 }, { 0, -1 }, { -1, 0 } };		//vector of am x and y coordinate, used in checking north, east, south and west
+	vector<SCurrentNode> currentNodePosition = { { 0, 1 }, { 1, 0 }, { 0, -1 }, { -1, 0 } };		//vector of am x and y coordinate, used in checking north, east, south and west
 
 	
 	unique_ptr <SNode> temp;
