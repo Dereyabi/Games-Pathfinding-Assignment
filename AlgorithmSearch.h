@@ -27,5 +27,4 @@ class CSearchAStar : public ISearch
 
 	int CSearchAStar::ManhattanDistance(SNode* currentNode, unique_ptr<SNode>& goal);
 
-	bool CompareCoords(unique_ptr<SNode>& lhs, unique_ptr<SNode>& rhs);
 };

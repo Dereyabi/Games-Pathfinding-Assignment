@@ -31,6 +31,7 @@ void main()
 	string coordinatesChosen;
 	bool pathFoundCheck = false;
 	bool algorithmPicker = false;
+	bool firstCoord = true;
 
 	TerrainMap costMap;
 
@@ -39,8 +40,8 @@ void main()
 	myCamera = myEngine->CreateCamera(kManual, cameraXPos, cameraYPos, cameraZPos);
 	
 	//states
-	enum searchStates { mapAndCoordSelect, algorithmSelect, mapCreation, algorithmRunning, pathFound };
-	searchStates currentStateS = mapAndCoordSelect;
+	enum searchStates { mapSelect, coordSelect, customCoordSelect,algorithmSelect, mapCreation, algorithmRunning, pathFound };
+	searchStates currentStateS = mapSelect;
 
 	//creation of models
 	IMesh* blockMesh = myEngine->LoadMesh("Cube.x");
@@ -96,7 +97,7 @@ void main()
 
 		switch (currentStateS)
 		{
-			case mapAndCoordSelect:
+			case mapSelect:
 			{
 				myFont->Draw("Select a Map and Coordinate File", 200, 670);
 				if (!fileSearchFinished)
@@ -129,7 +130,7 @@ void main()
 
 				mapChosen = availableMaps[mapCounter];
 
-				coordinatesChosen = availableCoordinates[coordinateMapCounter];
+				
 
 				if (myEngine->KeyHit(Key_Up))
 				{
@@ -200,18 +201,92 @@ void main()
 				{
 					clearMaps(costMap, map, mapXLength, mapYLength, blockMesh, start, goal);
 					CreateModels(costMap, map, blockMesh, mapXLength, mapYLength);
+					
 				}
 
 				CreateModels(costMap, map, blockMesh, mapXLength, mapYLength);
+
+
+				currentStateS = coordSelect;
+
+				break;
+			}
+			case coordSelect:
+			{
+				
+				coordinatesChosen = availableCoordinates[coordinateMapCounter];
 				map[start->y][start->x]->SetSkin("checked1.jpg");
 				map[goal->y][goal->x]->SetSkin("checked1.jpg");
 
 				currentStateS = algorithmSelect;
+			}
+			case customCoordSelect:
+			{
+				int coordCounterX = 0;
+				int coordCounterY = 0;
 
-				break;
+				bool coordNotSelected = true;
+
+				if (coordCounterX == mapXLength - 1)
+				{
+					mapCounter = 0;
+				}
+				if (coordCounterY == mapYLength - 1)
+				{
+
+				}
+				if (coordCounterX < 0)
+				{
+					coordCounterX = 0;
+				}
+				if (coordCounterY < 0)
+				{
+					coordCounterY = 0;
+				}
+
+				if (myEngine->KeyHit(Key_Up))
+				{
+					coordCounterX++;
+				}
+				if (myEngine->KeyHit(Key_Down))
+				{
+					coordCounterX--;
+				}
+				if (myEngine->KeyHit(Key_Left))
+				{
+					coordCounterY++;
+				}
+				if (myEngine->KeyHit(Key_Right))
+				{
+					coordCounterY--;
+				}
+
+				if (myEngine->KeyHit(Key_Return))
+				{
+					
+					if (firstCoord)
+					{
+						start->x = coordCounterX;
+						start->y = coordCounterY;
+						map[start->y][start->x]->SetSkin("checked1.jpg");
+						coordCounterX = 0;
+						coordCounterY = 0;
+						firstCoord = false;
+					}
+					else 
+					{
+						goal->x = coordCounterX;
+						goal->y = coordCounterY;
+						map[goal->y][goal->x]->SetSkin("checked1.jpg");
+
+						currentStateS = algorithmSelect;
+					}	
+				}
 			}
 			case algorithmSelect:
 			{
+				firstCoord = true;
+
 				myFont->Draw("Select an Algorithm", 200, 670);
 
 				if (myEngine->KeyHit(Key_Up))
@@ -242,7 +317,7 @@ void main()
 
 				if (myEngine->KeyHit(Key_Back))
 				{
-					currentStateS = mapAndCoordSelect;
+					currentStateS = mapSelect;
 					clearMaps(costMap, map, mapXLength, mapYLength, blockMesh, start, goal);
 				}
 				break;
@@ -274,7 +349,7 @@ void main()
 
 				if (myEngine->KeyHit(Key_Back))
 				{
-					currentStateS = mapAndCoordSelect;
+					currentStateS = mapSelect;
 
 					clearMaps(costMap, map, mapXLength, mapYLength, blockMesh, start, goal);
 					
