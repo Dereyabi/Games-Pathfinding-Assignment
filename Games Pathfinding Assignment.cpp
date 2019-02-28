@@ -32,6 +32,9 @@ void main()
 	bool pathFoundCheck = false;
 	bool algorithmPicker = false;
 	bool firstCoord = true;
+	int coordCounterX = 0;
+	int coordCounterY = 0;
+	bool coordNotSelected = true;
 
 	TerrainMap costMap;
 
@@ -222,9 +225,6 @@ void main()
 			}
 			case customCoordSelect:
 			{
-				int coordCounterX = 0;
-				int coordCounterY = 0;
-				bool coordNotSelected = true;
 
 				if (coordCounterX == mapXLength - 1)
 				{
@@ -245,19 +245,19 @@ void main()
 
 				if (myEngine->KeyHit(Key_Up))
 				{
-					coordCounterX++;
+					coordCounterY++;
 				}
 				if (myEngine->KeyHit(Key_Down))
 				{
-					coordCounterX--;
+					coordCounterY--;
 				}
 				if (myEngine->KeyHit(Key_Left))
 				{
-					coordCounterY++;
+					coordCounterX--;
 				}
 				if (myEngine->KeyHit(Key_Right))
 				{
-					coordCounterY--;
+					coordCounterX++;
 				}
 
 				if (myEngine->KeyHit(Key_Return))
@@ -272,7 +272,7 @@ void main()
 						coordCounterY = 0;
 						firstCoord = false;
 					}
-					else 
+					else if(!firstCoord)
 					{
 						goal->x = coordCounterX;
 						goal->y = coordCounterY;

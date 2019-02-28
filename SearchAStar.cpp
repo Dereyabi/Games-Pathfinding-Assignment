@@ -20,7 +20,6 @@ bool CSearchAStar::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start, uniqu
 	unique_ptr <SNode> temp;
 	unique_ptr <SNode> currentNode;
 
-	int cost;
 
 	if (terrain[start->y][start->x] == Wall || terrain[goal->y][goal->x] == Wall)				//initial check to see if either the start or end is on the goal
 	{

@@ -75,6 +75,7 @@ bool CSearchBreadthFirst::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start
 		}
 	}
 
+	//puts complete path on path list to be displayed 
 	if (found == true)
 	{
 		SNode* parentNode = closedList.back().get();
