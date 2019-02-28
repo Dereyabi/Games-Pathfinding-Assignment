@@ -58,6 +58,7 @@ bool CSearchAStar::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start, uniqu
 
 				for (auto it = currentNodePosition.begin(); it != currentNodePosition.end(); ++it)
 				{
+
 					if (!ListSearch(openList, currentNode.get(), (*it)) && (!ListSearch(closedList, currentNode.get(), (*it)))
 						&& BoundrySearch(terrain, currentNode.get(), (*it), mapXLength, mapYLength) != Wall)					//wall check needs + or - on current node depending on direction 
 					{
@@ -89,15 +90,16 @@ bool CSearchAStar::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start, uniqu
 						int heuristic = ManhattanDistance(temp.get(), goal);
 						temp->score = temp->terrainCost + heuristic;
 
-						if (currentNode->score > temp->score)
-						{
-							openList.erase;  //this needs to delete the old snode on the openlist and replace it with the new one with a lower score
-							//set the parent of the new node to the old node 
-							temp->parent = currentNode.get();
-							//push the new node onto the openList
-							openList.push_back(move(temp));
-							newNodeCreated = true;
-						}
+						//if (currentNode->score > temp->score)
+						//{
+
+						//	temp->parent = currentNode.get();
+						//	//openList.erase(*it);  //this needs to delete the old snode on the openlist and replace it with the new one with a lower score
+						//						//set the parent of the new node to the old node 
+						//	//push the new node onto the openList
+						//	openList.push_back(move(temp));
+						//	newNodeCreated = true;
+						//}
 						
 					}
 

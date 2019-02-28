@@ -224,16 +224,15 @@ void main()
 			{
 				int coordCounterX = 0;
 				int coordCounterY = 0;
-
 				bool coordNotSelected = true;
 
 				if (coordCounterX == mapXLength - 1)
 				{
-					mapCounter = 0;
+					coordCounterX = 0;
 				}
 				if (coordCounterY == mapYLength - 1)
 				{
-
+					coordCounterY = 0;
 				}
 				if (coordCounterX < 0)
 				{
