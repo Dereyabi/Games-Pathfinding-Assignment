@@ -88,18 +88,6 @@ bool CSearchAStar::FindPath(TerrainMap& terrain, unique_ptr<SNode>& start, uniqu
 						temp->terrainCost = ScoreCheck(terrain, temp.get()) + currentNode->terrainCost;
 						int heuristic = ManhattanDistance(temp.get(), goal);
 						temp->score = temp->terrainCost + heuristic;
-
-						//if (currentNode->score > temp->score)
-						//{
-
-						//	temp->parent = currentNode.get();
-						//	//openList.erase(*it);  //this needs to delete the old snode on the openlist and replace it with the new one with a lower score
-						//						//set the parent of the new node to the old node 
-						//	//push the new node onto the openList
-						//	openList.push_back(move(temp));
-						//	newNodeCreated = true;
-						//}
-						
 					}
 
 					
@@ -207,10 +195,6 @@ int CSearchAStar::ManhattanDistance(SNode* currentNode, unique_ptr<SNode>& goal)
 	return distance;
 }
 
-//bool CSearchAStar::CompareCoords(unique_ptr<SNode>& lhs, unique_ptr<SNode>& rhs)
-//{
-//	return lhs->score < rhs->score;
-//}
 
 
 

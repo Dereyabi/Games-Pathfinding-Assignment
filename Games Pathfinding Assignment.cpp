@@ -80,10 +80,7 @@ void main()
 
 		// need to create a for loop to create blocks, depending on the type change its skin 
 		myFont->Draw(mapChosen, 1000, 50);
-		//if (currentStateS != mapSelect)
-		//{
-		//	myFont->Draw(coordinatesChosen, 1000, 100);
-		//}
+
 		if (pathFoundCheck && currentStateS == pathFound)
 		{
 			myFont->Draw("Path Found", 1000, 150);
@@ -109,7 +106,7 @@ void main()
 			myFont->Draw("Custom Coordinates", 1000, 100);
 		}
 		
-		if (currentStateS >= 3 && !NULL)
+		if (currentStateS >= 3 && start != NULL)
 		{
 			myFont->Draw("Start:", 1000, 100);
 			myFont->Draw("(", 1100, 100);
@@ -119,7 +116,7 @@ void main()
 			myFont->Draw(")", 1150, 100);
 		}
 
-		if (currentStateS >= 3 && !NULL)
+		if (currentStateS >= 3 && currentStateS < 7 && goal != NULL)
 		{
 			myFont->Draw("End:", 1000, 150);
 			myFont->Draw("(", 1100, 150);
@@ -269,6 +266,8 @@ void main()
 						start->y = 0;
 						goal->x = 0;
 						goal->y = 0;
+						coordCounterX = 0;
+						coordCounterY = 0;
 						currentStateS = customCoordSelect;
 					}
 				}
@@ -287,21 +286,21 @@ void main()
 			case customCoordSelect:
 			{
 
-				if (coordCounterX == mapXLength - 1)
+				if (coordCounterX == mapXLength)
 				{
 					coordCounterX = 0;
 				}
-				if (coordCounterY == mapYLength - 1)
+				if (coordCounterY == mapYLength)
 				{
 					coordCounterY = 0;
 				}
 				if (coordCounterX < 0)
 				{
-					coordCounterX = 0;
+					coordCounterX = mapXLength - 1;
 				}
 				if (coordCounterY < 0)
 				{
-					coordCounterY = 0;
+					coordCounterY = mapYLength - 1;
 				}
 
 				if (myEngine->KeyHit(Key_Up))
@@ -376,12 +375,6 @@ void main()
 
 					currentStateS = algorithmRunning;
 				}
-
-				if (myEngine->KeyHit(Key_Back))
-				{
-					currentStateS = mapSelect;
-					clearMaps(costMap, map, mapXLength, mapYLength, blockMesh, start, goal);
-				}
 				break;
 			}
 			case algorithmRunning:
@@ -409,15 +402,15 @@ void main()
 					outfile << (*it)->x << ", " << (*it)->y << endl;
 				}
 
-				if (myEngine->KeyHit(Key_Back))
-				{
-					currentStateS = mapSelect;
 
-					clearMaps(costMap, map, mapXLength, mapYLength, blockMesh, start, goal);
-					
-				}
 				break;
 			}
+		}
+
+		if (myEngine->KeyHit(Key_Back) && currentStateS != mapSelect)
+		{
+			currentStateS = mapSelect;
+			clearMaps(costMap, map, mapXLength, mapYLength, blockMesh, start, goal);
 		}
 
 		if (myEngine->KeyHit(Key_Escape))
