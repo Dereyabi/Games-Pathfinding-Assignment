@@ -35,6 +35,7 @@ void main()
 	int coordCounterX = 0;
 	int coordCounterY = 0;
 	bool coordNotSelected = true;
+	bool coordMethod = false;
 
 	TerrainMap costMap;
 
@@ -43,7 +44,7 @@ void main()
 	myCamera = myEngine->CreateCamera(kManual, cameraXPos, cameraYPos, cameraZPos);
 	
 	//states
-	enum searchStates { mapSelect, coordSelect, customCoordSelect,algorithmSelect, mapCreation, algorithmRunning, pathFound };
+	enum searchStates { mapSelect, customOrBaseCoord, coordSelect, customCoordSelect, algorithmSelect, mapCreation, algorithmRunning, pathFound };
 	searchStates currentStateS = mapSelect;
 
 	//creation of models
@@ -78,25 +79,55 @@ void main()
 		/**** Update your scene each frame here ****/
 
 		// need to create a for loop to create blocks, depending on the type change its skin 
-		myFont->Draw(mapChosen, 1100, 50);
-		myFont->Draw(coordinatesChosen, 1100, 100);
-		if (pathFoundCheck)
+		myFont->Draw(mapChosen, 1000, 50);
+		//if (currentStateS != mapSelect)
+		//{
+		//	myFont->Draw(coordinatesChosen, 1000, 100);
+		//}
+		if (pathFoundCheck && currentStateS == pathFound)
 		{
-			myFont->Draw("Path Found", 1100, 150);
+			myFont->Draw("Path Found", 1000, 150);
 		}
-		else
+		else if (!pathFoundCheck && currentStateS == pathFound)
 		{
-			myFont->Draw("No Path", 1100, 150);
+			myFont->Draw("No Path", 1000, 150);
 		}
-		if (!algorithmPicker)
+		if (algorithmPicker == false && currentStateS >= 3)
 		{
-			myFont->Draw("BreadthFirst", 1100, 200);
+			myFont->Draw("BreadthFirst", 1000, 200);
 		}
-		if (algorithmPicker)
+		else if (algorithmPicker == true && currentStateS >= 3)
 		{
-			myFont->Draw("AStar", 1100, 200);
+			myFont->Draw("AStar", 1000, 200);
+		}
+		if (coordMethod == false && currentStateS == customOrBaseCoord)
+		{
+			myFont->Draw("Base Coordinates", 1000, 100);
+		}
+		else if (coordMethod == true && currentStateS == customOrBaseCoord)
+		{
+			myFont->Draw("Custom Coordinates", 1000, 100);
 		}
 		
+		if (currentStateS >= 3 && !NULL)
+		{
+			myFont->Draw("Start:", 1000, 100);
+			myFont->Draw("(", 1100, 100);
+			myFont->Draw(to_string(start->x), 1110, 100);				//is a nullpointer becasue start and goal get sent by referernce and put on the open list, therefore its null
+			myFont->Draw(",", 1125, 100);
+			myFont->Draw(to_string(start->y), 1135, 100);				//same for this and the end too
+			myFont->Draw(")", 1150, 100);
+		}
+
+		if (currentStateS >= 3 && !NULL)
+		{
+			myFont->Draw("End:", 1000, 150);
+			myFont->Draw("(", 1100, 150);
+			myFont->Draw(to_string(goal->x), 1110, 150);
+			myFont->Draw(",", 1125, 150);
+			myFont->Draw(to_string(goal->y), 1135, 150);
+			myFont->Draw(")", 1150, 150);
+		}
 
 		switch (currentStateS)
 		{
@@ -199,7 +230,7 @@ void main()
 			}
 			case mapCreation:
 			{
-				myFont->Draw("map being created", 200, 670);
+				
 				if (!map.empty())
 				{
 					clearMaps(costMap, map, mapXLength, mapYLength, blockMesh, start, goal);
@@ -209,8 +240,38 @@ void main()
 
 				CreateModels(costMap, map, blockMesh, mapXLength, mapYLength);
 
+				currentStateS = customOrBaseCoord;
 
-				currentStateS = coordSelect;
+				break;
+			}
+			case customOrBaseCoord:
+			{
+
+				if (myEngine->KeyHit(Key_Up))
+				{
+					coordMethod = !coordMethod;
+				}
+
+				if (myEngine->KeyHit(Key_Down))
+				{
+					coordMethod = !coordMethod;
+				}
+
+				if (myEngine->KeyHit(Key_Return))
+				{
+					if (coordMethod == false)
+					{
+						currentStateS = coordSelect;
+					}
+					else if (coordMethod == true)
+					{
+						start->x = 0;
+						start->y = 0;
+						goal->x = 0;
+						goal->y = 0;
+						currentStateS = customCoordSelect;
+					}
+				}
 
 				break;
 			}
@@ -279,8 +340,10 @@ void main()
 						map[goal->y][goal->x]->SetSkin("checked1.jpg");
 
 						currentStateS = algorithmSelect;
+						
 					}	
 				}
+				break;
 			}
 			case algorithmSelect:
 			{
