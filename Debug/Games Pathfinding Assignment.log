@@ -1,4 +1,12 @@
-﻿cl : Command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
+﻿cl : command line warning D9035: option 'Gm' has been deprecated and will be removed in a future release
   Games Pathfinding Assignment.cpp
-  Games Pathfinding Assignment.vcxproj -> D:\JStewart8\Desktop\Games-Pathfinding-Assignment\\Games Pathfinding AssignmentDebug.exe
+C:\Users\Rsmxs\OneDrive\Desktop\Games-Pathfinding-Assignment\Games Pathfinding Assignment.cpp(310,59): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Rsmxs\OneDrive\Desktop\Games-Pathfinding-Assignment\Games Pathfinding Assignment.cpp(310,39): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Rsmxs\OneDrive\Desktop\Games-Pathfinding-Assignment\Games Pathfinding Assignment.cpp(315,59): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Rsmxs\OneDrive\Desktop\Games-Pathfinding-Assignment\Games Pathfinding Assignment.cpp(315,39): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Rsmxs\OneDrive\Desktop\Games-Pathfinding-Assignment\Games Pathfinding Assignment.cpp(320,59): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Rsmxs\OneDrive\Desktop\Games-Pathfinding-Assignment\Games Pathfinding Assignment.cpp(320,39): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Rsmxs\OneDrive\Desktop\Games-Pathfinding-Assignment\Games Pathfinding Assignment.cpp(325,59): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+C:\Users\Rsmxs\OneDrive\Desktop\Games-Pathfinding-Assignment\Games Pathfinding Assignment.cpp(325,39): warning C4244: 'argument': conversion from 'int' to 'const float', possible loss of data
+  Games Pathfinding Assignment.vcxproj -> C:\Users\Rsmxs\OneDrive\Desktop\Games-Pathfinding-Assignment\\Games Pathfinding AssignmentDebug.exe
   Copying DLLs & shaders...

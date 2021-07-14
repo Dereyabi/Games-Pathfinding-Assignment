@@ -62,7 +62,8 @@ void main()
 	unique_ptr<SNode> goal(new SNode);
 	NodeList path;
 
-	
+	IModel* coordSelectModel = blockMesh->CreateModel(-1000, -1000, -10);
+	coordSelectModel->SetSkin("CustomCord.jpg");
 	
 
 	ISearch* Search;
@@ -268,6 +269,7 @@ void main()
 						goal->y = 0;
 						coordCounterX = 0;
 						coordCounterY = 0;
+						coordSelectModel->SetPosition(0, 0, -10);
 						currentStateS = customCoordSelect;
 					}
 				}
@@ -285,7 +287,6 @@ void main()
 			}
 			case customCoordSelect:
 			{
-
 				if (coordCounterX == mapXLength)
 				{
 					coordCounterX = 0;
@@ -306,18 +307,22 @@ void main()
 				if (myEngine->KeyHit(Key_Up))
 				{
 					coordCounterY++;
+					coordSelectModel->SetPosition(10 * coordCounterX, 10 * coordCounterY, -10);
 				}
 				if (myEngine->KeyHit(Key_Down))
 				{
 					coordCounterY--;
+					coordSelectModel->SetPosition(10 * coordCounterX, 10 * coordCounterY, -10);
 				}
 				if (myEngine->KeyHit(Key_Left))
 				{
 					coordCounterX--;
+					coordSelectModel->SetPosition(10 * coordCounterX, 10 * coordCounterY, -10);
 				}
 				if (myEngine->KeyHit(Key_Right))
 				{
 					coordCounterX++;
+					coordSelectModel->SetPosition(10 * coordCounterX, 10 * coordCounterY, -10);
 				}
 
 				if (myEngine->KeyHit(Key_Return))
@@ -330,6 +335,7 @@ void main()
 						map[start->y][start->x]->SetSkin("checked1.jpg");
 						coordCounterX = 0;
 						coordCounterY = 0;
+						coordSelectModel->SetPosition(0, 0, -10);
 						firstCoord = false;
 					}
 					else if(!firstCoord)
@@ -337,7 +343,7 @@ void main()
 						goal->x = coordCounterX;
 						goal->y = coordCounterY;
 						map[goal->y][goal->x]->SetSkin("checked1.jpg");
-
+						coordSelectModel->SetPosition(-1000, -1000, -10);
 						currentStateS = algorithmSelect;
 						
 					}	
